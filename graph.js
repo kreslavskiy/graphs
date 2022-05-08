@@ -30,7 +30,7 @@ class Vertex {
   link(...args) {
     const distinct = new Set(args);
     const { links } = this;
-    const { keyField } = this.graph;
+    const keyField = graph.keyField;
     for (const item of distinct) {
       const key = item.data[keyField];
       links.set(key, item);
@@ -58,7 +58,7 @@ class Cursor {
   }
 }
 
-let graph  = {
+const graph  = {
   
   keyField: undefined,
   vertices: new Map(),
@@ -84,15 +84,13 @@ let graph  = {
   },
 
   link (source) {
-    const { vertices } = this;
+    const vertices = graph.vertices;
     const from = vertices.get(source);
     return {
-      to(...destinations) {
+      to(destination) {
         if (from) {
-          destinations.forEach(destination => {
-            const target = vertices.get(destination);
+            const target = vertices.get(destination.toString());
             if (target) from.link(target);
-          });
         }
       }
     };
@@ -113,14 +111,12 @@ let graph  = {
     return new Cursor(vertices);
   },
 
-  showData () {
-    console.dir ( graph.vertices.data );
-  },
-
-  insert(records) {
-    for (const record of records) {
-      this.add(record);
-    }
+  showData() {
+    const result = new Map (graph.vertices);
+    result.forEach((vertex) => {
+      delete vertex.graph;
+    });
+    return result;
   }
 }
 
@@ -135,14 +131,16 @@ const commands = {
     graph.add ();
   },
   async link () {
-    const linkFrom = await question ('');
-    const linkTo = await question ('');
+    const linkFrom = await question ('from ');
+    const linkTo = await question ('to ');
     graph.link(linkFrom).to(linkTo);
   },
   show () {
-    graph.showData();
+    const res = graph.showData();
+    console.dir (res);
   },
   exit () {
     rl.close();
+    console.clear();
   },
 };
