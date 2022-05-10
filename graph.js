@@ -97,18 +97,24 @@ const graph  = {
   },
 
   select(query) {
-    const vertices = new Set();
-    for (const vertex of this.vertices.values()) {
+    const inputExec = '{' + query + '}';
+    const script = vm.createScript('(' + inputExec + ')');
+    const input = script.runInThisContext();
+    const result = new Array();
+    for (const vertex of graph.vertices.values()) {
       let condition = true;
       const { data } = vertex;
       if (data) {
-        for (const field in query) {
-          condition = condition && data[field] === query[field];
+        for (const field in input) {
+          condition = condition && data[field] ===input[field];
         }
-        if (condition) vertices.add(vertex);
+        if (condition) result.push(vertex);
       }
     }
-    return new Cursor(vertices);
+    result.forEach((vertex) => {
+      delete vertex.graph;
+    });
+    return result;
   },
 
   showData() {
@@ -131,9 +137,14 @@ const commands = {
     graph.add ();
   },
   async link () {
-    const linkFrom = await question ('from ');
-    const linkTo = await question ('to ');
+    const linkFrom = await question ('From: ');
+    const linkTo = await question ('To: ');
     graph.link(linkFrom).to(linkTo);
+  },
+  async select () {
+    const query = await question ('');
+    const res = graph.select(query);
+    console.dir(res);
   },
   show () {
     const res = graph.showData();
