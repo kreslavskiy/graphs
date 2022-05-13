@@ -2,8 +2,15 @@
 
 const vm = require('vm');
 
+const deserialize = (str) => {
+  const inputExec = '{' + str + '}';
+  const script = vm.createScript('(' + inputExec + ')');
+  const input = script.runInThisContext();
+  return input;
+};
+
 class Vertex {
-  constructor (graph, data) {
+  constructor(graph, data) {
     this.graph = graph;
     this.data = data;
     this.links = new Map();
@@ -21,20 +28,17 @@ class Vertex {
   }
 }
 
-const graph  = {
-  
+const graph = {
   keyField: undefined,
   vertices: new Map(),
 
-  keyFieldSetter (field) {
+  keyFieldSetter(field) {
     graph.keyField = field;
     return graph.keyField;
   },
 
-  add (input) {
-    const inputExec = '{' + input + '}';
-    const script = vm.createScript('(' + inputExec + ')');
-    const data = script.runInThisContext();
+  add(input) {
+    const data = deserialize(input);
     console.dir(data);
     const vertex = new Vertex(this, data);
     const key = data[graph.keyField];
@@ -44,33 +48,40 @@ const graph  = {
     return vertex;
   },
 
-  link (source) {
+  link(source) {
     const vertices = graph.vertices;
     const from = vertices.get(source);
     return {
       to(destination) {
         if (from) {
-            const target = vertices.get(destination.toString());
-            if (target) from.link(target);
+          const target = vertices.get(destination.toString());
+          if (target) from.link(target);
         }
-      }
+      },
     };
   },
 
-  select(query) {
-    const inputExec = '{' + query + '}';
-    const script = vm.createScript('(' + inputExec + ')');
-    const input = script.runInThisContext();
+  select(query, names) {
+    const input = deserialize(query);
+    names = names.trim();
     const result = new Array();
     for (const vertex of graph.vertices.values()) {
       let condition = true;
       const { data } = vertex;
       if (data) {
         for (const field in input) {
-          condition = condition && data[field] ===input[field];
+          condition = condition && data[field] === input[field];
         }
         if (condition) result.push(vertex);
       }
+    }
+    if (names.includes(',')) names = names.replaceAll(' ', '').split(',');
+    for (const vertex of result) {
+      let condition = true;
+      for (const name of names) {
+        condition = condition && vertex.links.has(name);
+      }
+      if (!condition) result.splice(result.indexOf(vertex), 1);
     }
     result.forEach((vertex) => {
       delete vertex.graph;
@@ -79,12 +90,12 @@ const graph  = {
   },
 
   showData() {
-    const result = new Map (graph.vertices);
+    const result = new Map(graph.vertices);
     result.forEach((vertex) => {
       delete vertex.graph;
     });
     return result;
-  }
+  },
 };
 
 module.exports = graph;

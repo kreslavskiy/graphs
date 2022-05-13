@@ -1,7 +1,7 @@
 'use strict';
 
 const readline = require('readline');
-const graph = require ('./graph.js');
+const graph = require('./graph.js');
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -20,52 +20,34 @@ rl.on('close', () => process.exit(0));
 
 const question = (str) => new Promise((answer) => rl.question(str, answer));
 
-class Cursor {
-  constructor(vertices) {
-    this.vertices = vertices;
-  }
-
-  linked(...names) {
-    const { vertices } = this;
-    const result = new Set();
-    for (const vertex of vertices) {
-      let condition = true;
-      for (const name of names) {
-        condition = condition && vertex.links.has(name);
-      }
-      if (condition) result.add(vertex);
-    }
-    return new Cursor(result);
-  }
-}
-
 const commands = {
-  help () {
+  help() {
     console.log('Commands:', Object.keys(commands).join(', '));
   },
-  async setkf () {
-    const field = await question ('Enter key field: ');
-    graph.keyFieldSetter (field);
+  async setkf() {
+    const field = await question('Enter key field: ');
+    graph.keyFieldSetter(field);
   },
-  async add () {
-    const input = await question ('Enter data: ');
-    graph.add (input);
+  async add() {
+    const input = await question('Enter data: ');
+    graph.add(input);
   },
-  async link () {
-    const linkFrom = await question ('From: ');
-    const linkTo = await question ('To: ');
+  async link() {
+    const linkFrom = await question('From: ');
+    const linkTo = await question('To: ');
     graph.link(linkFrom).to(linkTo);
   },
-  async select () {
-    const query = await question ('');
-    const res = graph.select(query);
+  async select() {
+    const query = await question('Enter data: ');
+    const links = await question('Enter links: ');
+    const res = graph.select(query, links);
     console.dir(res);
   },
-  show () {
+  show() {
     const res = graph.showData();
-    console.dir (res);
+    console.dir(res);
   },
-  exit () {
+  exit() {
     rl.close();
     console.clear();
   },
