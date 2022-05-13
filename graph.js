@@ -1,24 +1,6 @@
 'use strict';
 
-const readline = require('readline');
 const vm = require('vm');
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-rl.on('line', (line) => {
-  line = line.trim();
-  const command = commands[line];
-  if (command) command();
-  else console.log('\x1b[31m', 'Unknown command', '\x1b[0m');
-  rl.prompt();
-});
-
-rl.on('close', () => process.exit(0));
-
-const question = (str) => new Promise((answer) => rl.question(str, answer));
 
 class Vertex {
   constructor (graph, data) {
@@ -39,38 +21,17 @@ class Vertex {
   }
 }
 
-class Cursor {
-  constructor(vertices) {
-    this.vertices = vertices;
-  }
-
-  linked(...names) {
-    const { vertices } = this;
-    const result = new Set();
-    for (const vertex of vertices) {
-      let condition = true;
-      for (const name of names) {
-        condition = condition && vertex.links.has(name);
-      }
-      if (condition) result.add(vertex);
-    }
-    return new Cursor(result);
-  }
-}
-
 const graph  = {
   
   keyField: undefined,
   vertices: new Map(),
 
-  async keyFieldSetter () {
-    const keyField = await question ('Enter key field: ');
-    graph.keyField = keyField;
-    return keyField;
+  keyFieldSetter (field) {
+    graph.keyField = field;
+    return graph.keyField;
   },
 
-  async add () {
-    const input = await question ('Enter data: ');
+  add (input) {
     const inputExec = '{' + input + '}';
     const script = vm.createScript('(' + inputExec + ')');
     const data = script.runInThisContext();
@@ -124,34 +85,6 @@ const graph  = {
     });
     return result;
   }
-}
-
-const commands = {
-  help () {
-    console.log('Commands:', Object.keys(commands).join(', '));
-  },
-  setkf () {
-    graph.keyFieldSetter ();
-  },
-  add () {
-    graph.add ();
-  },
-  async link () {
-    const linkFrom = await question ('From: ');
-    const linkTo = await question ('To: ');
-    graph.link(linkFrom).to(linkTo);
-  },
-  async select () {
-    const query = await question ('');
-    const res = graph.select(query);
-    console.dir(res);
-  },
-  show () {
-    const res = graph.showData();
-    console.dir (res);
-  },
-  exit () {
-    rl.close();
-    console.clear();
-  },
 };
+
+module.exports = graph;
