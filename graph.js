@@ -66,7 +66,6 @@ const graph = {
     const input = deserialize(query);
     names = names.trim();
     const result = new Array();
-    if (names.includes(',')) names = names.replaceAll(' ', '').split(',');
     for (const vertex of graph.vertices.values()) {
       let condition = true;
       const { data } = vertex;
@@ -77,6 +76,7 @@ const graph = {
         if (condition) result.push(vertex);
       }
     }
+    if (names.includes(',')) names = names.replaceAll(' ', '').split(',');
     for (const vertex of result) {
       let condition = true;
       for (const name of names) {
@@ -84,9 +84,6 @@ const graph = {
       }
       if (!condition) result.splice(result.indexOf(vertex), 1);
     }
-    result.forEach((vertex) => {
-      delete vertex.graph;
-    });
     return result;
   },
 
@@ -99,7 +96,7 @@ const graph = {
   },
 
   async createFile (fileName) {
-    const map = this.showData();
+    const map = this.vertices;
     const data = JSON.stringify(Array.from(map.entries()));
     const file = fs.appendFile (`${fileName}.txt`, data, (err) => {
       if (err) throw err;
