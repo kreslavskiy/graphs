@@ -14,9 +14,7 @@ rl.on('line', (line) => {
   if (command) command();
   else console.log('\x1b[31m', 'Unknown command', '\x1b[0m');
   rl.prompt();
-});
-
-rl.on('close', () => process.exit(0));
+}).on('close', () => process.exit(0));
 
 const question = (str) => new Promise((answer) => rl.question(str, answer));
 
@@ -42,6 +40,10 @@ const commands = {
     const links = await question('Enter links: ');
     const res = graph.select(query, links);
     console.dir(res);
+  },
+  async save() {
+    const name = await question ('Enter file name: ');
+    graph.createFile (name);
   },
   show() {
     const res = graph.showData();

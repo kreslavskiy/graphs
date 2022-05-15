@@ -1,6 +1,7 @@
 'use strict';
 
 const vm = require('vm');
+const fs = require('fs');
 
 const deserialize = (str) => {
   const inputExec = '{' + str + '}';
@@ -65,6 +66,7 @@ const graph = {
     const input = deserialize(query);
     names = names.trim();
     const result = new Array();
+    if (names.includes(',')) names = names.replaceAll(' ', '').split(',');
     for (const vertex of graph.vertices.values()) {
       let condition = true;
       const { data } = vertex;
@@ -75,7 +77,6 @@ const graph = {
         if (condition) result.push(vertex);
       }
     }
-    if (names.includes(',')) names = names.replaceAll(' ', '').split(',');
     for (const vertex of result) {
       let condition = true;
       for (const name of names) {
@@ -90,11 +91,20 @@ const graph = {
   },
 
   showData() {
-    const result = new Map(graph.vertices);
+    const result = new Map(this.vertices);
     result.forEach((vertex) => {
       delete vertex.graph;
     });
     return result;
+  },
+
+  async createFile (fileName) {
+    const map = this.showData();
+    const data = JSON.stringify(Array.from(map.entries()));
+    const file = fs.appendFile (`${fileName}.txt`, data, (err) => {
+      if (err) throw err;
+    })
+    return file;
   },
 };
 
