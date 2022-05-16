@@ -3,12 +3,7 @@
 const vm = require('vm');
 const fs = require('fs');
 
-const deserialize = (str) => {
-  const inputExec = '{' + str + '}';
-  const script = vm.createScript('(' + inputExec + ')');
-  const input = script.runInThisContext();
-  return input;
-};
+const deserialize = (src) => vm.createScript('({' + src + '})').runInThisContext();
 
 class Vertex {
   constructor(graph, data) {
@@ -43,7 +38,7 @@ const graph = {
     console.dir(data);
     const vertex = new Vertex(this, data);
     const key = data[graph.keyField];
-    if (graph.vertices.get(key) === undefined) {
+    if (!graph.vertices.has(key)) {
       graph.vertices.set(key, vertex);
     }
     return vertex;
@@ -95,13 +90,10 @@ const graph = {
     return result;
   },
 
-  async createFile (fileName) {
-    const map = this.vertices;
-    const data = JSON.stringify(Array.from(map.entries()));
-    const file = fs.appendFile (`${fileName}.txt`, data, (err) => {
-      if (err) throw err;
-    })
-    return file;
+  async createFile(fileName) {
+    const vertices = [...this.vertices.entries()];
+    const data = JSON.stringify(vertices);
+    await fs.promises.appendFile(`${fileName}.txt`, data);
   },
 };
 

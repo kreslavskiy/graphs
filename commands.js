@@ -22,7 +22,7 @@ const commands = {
   help() {
     console.log('Commands:', Object.keys(commands).join(', '));
   },
-  async setkf() {
+  async key() {
     const field = await question('Enter key field: ');
     graph.keyFieldSetter(field);
   },
@@ -42,8 +42,8 @@ const commands = {
     console.dir(res);
   },
   async save() {
-    const name = await question ('Enter file name: ');
-    graph.createFile (name);
+    const name = await question('Enter file name: ');
+    graph.createFile(name);
   },
   show() {
     const res = graph.showData();
