@@ -92,11 +92,11 @@ const graph = {
 
   async save(fileName) {
     const vertices = [...this.vertices.entries()];
-    let data = JSON.stringify(vertices);
+    const data = JSON.stringify(vertices);
     if (fs.existsSync(`${fileName}.txt`)) {
-      fs.truncate(`${fileName}.txt`, err => {
-        if(err) throw err;
-     });
+      fs.truncate(`${fileName}.txt`, (err) => {
+        if (err) throw err;
+      });
     }
     await fs.promises.appendFile(`${fileName}.txt`, data);
   },
