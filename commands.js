@@ -43,7 +43,7 @@ const commands = {
   },
   async save() {
     const name = await question('Enter file name: ');
-    graph.createFile(name);
+    graph.save(name);
   },
   show() {
     const res = graph.showData();

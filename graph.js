@@ -90,9 +90,14 @@ const graph = {
     return result;
   },
 
-  async createFile(fileName) {
+  async save(fileName) {
     const vertices = [...this.vertices.entries()];
-    const data = JSON.stringify(vertices);
+    let data = JSON.stringify(vertices);
+    if (fs.existsSync(`${fileName}.txt`)) {
+      fs.truncate(`${fileName}.txt`, err => {
+        if(err) throw err;
+     });
+    }
     await fs.promises.appendFile(`${fileName}.txt`, data);
   },
 };
