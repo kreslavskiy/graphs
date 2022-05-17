@@ -24,13 +24,19 @@ class Vertex {
   }
 }
 
-const graph = {
-  keyField: undefined,
-  vertices: new Map(),
+class Graph {
+  constructor(graphName, keyField) {
+    this.graphName = graphName;
+    this.keyField = keyField;
+    this.vertices = new Map();
+  }
+}
 
-  keyFieldSetter(field) {
-    graph.keyField = field;
-    return graph.keyField;
+let graph = new Graph();
+
+const methods = {
+  createNewGraph(graphName, keyField) {
+    graph = new Graph(graphName, keyField);
   },
 
   add(input) {
@@ -87,7 +93,7 @@ const graph = {
   },
 
   showGraph() {
-    const result = new Map(this.vertices);
+    const result = new Map(graph.vertices);
     result.forEach((vertex) => {
       delete vertex.graph;
     });
@@ -95,7 +101,7 @@ const graph = {
   },
 
   async save(fileName) {
-    const vertices = [...this.vertices.entries()];
+    const vertices = [...graph.vertices.entries()];
     const data = JSON.stringify(vertices);
     if (fs.existsSync(`${fileName}.txt`)) {
       fs.truncate(`${fileName}.txt`, (err) => {
@@ -106,4 +112,4 @@ const graph = {
   },
 };
 
-module.exports = graph;
+module.exports = { Graph, methods };
