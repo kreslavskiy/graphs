@@ -83,7 +83,7 @@ const graph = {
         if (!condition) result.splice(result.indexOf(vertex), 1);
       }
     }
-    return result.flat();
+    return result;
   },
 
   showGraph() {

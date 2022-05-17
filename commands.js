@@ -40,7 +40,8 @@ const commands = {
     const links = await question('Enter links: ');
     const selected = graph.select(query);
     const linked = graph.linked(links, selected);
-    console.dir(linked);
+    if (links) console.dir(linked);
+    else console.dir(selected);
   },
   async save() {
     const name = await question('Enter file name: ');
