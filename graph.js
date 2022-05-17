@@ -57,32 +57,36 @@ const graph = {
     };
   },
 
-  select(query, names) {
+  select(query) {
     const input = deserialize(query);
-    names = names.trim();
     const result = new Array();
     for (const vertex of graph.vertices.values()) {
       let condition = true;
       const { data } = vertex;
       if (data) {
         for (const field in input) {
-          condition = condition && data[field] === input[field];
+          condition &&= data[field] === input[field];
         }
         if (condition) result.push(vertex);
       }
     }
-    if (names.includes(',')) names = names.replaceAll(' ', '').split(',');
-    for (const vertex of result) {
-      let condition = true;
-      for (const name of names) {
-        condition = condition && vertex.links.has(name);
-      }
-      if (!condition) result.splice(result.indexOf(vertex), 1);
-    }
     return result;
   },
 
-  showData() {
+  linked(links, selectedByData) {
+    const result = [...selectedByData];
+    links = links.trim().replaceAll(',', '').split(' ');
+    for (const vertex of result) {
+      let condition = true;
+      for (const link of links) {
+        condition &&= vertex.links.has(link);
+        if (!condition) result.splice(result.indexOf(vertex), 1);
+      }
+    }
+    return result.flat();
+  },
+
+  showGraph() {
     const result = new Map(this.vertices);
     result.forEach((vertex) => {
       delete vertex.graph;

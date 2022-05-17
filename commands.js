@@ -38,15 +38,16 @@ const commands = {
   async select() {
     const query = await question('Enter data: ');
     const links = await question('Enter links: ');
-    const res = graph.select(query, links);
-    console.dir(res);
+    const selected = graph.select(query);
+    const linked = graph.linked(links, selected);
+    console.dir(linked);
   },
   async save() {
     const name = await question('Enter file name: ');
     graph.save(name);
   },
   show() {
-    const res = graph.showData();
+    const res = graph.showGraph();
     console.dir(res);
   },
   exit() {
