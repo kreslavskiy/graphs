@@ -6,8 +6,8 @@ const fs = require('fs');
 const deserialize = (src) => vm.createScript('({' + src + '})').runInThisContext();
 
 class Vertex {
-  constructor(graph, data) {
-    this.graph = graph;
+  constructor(graphName, data) {
+    this.graphName = graphName;
     this.data = data;
     this.links = new Map();
   }
@@ -42,7 +42,7 @@ const methods = {
   add(input) {
     const data = deserialize(input);
     console.dir(data);
-    const vertex = new Vertex(this, data);
+    const vertex = new Vertex(graph.graphName, data);
     const key = data[graph.keyField];
     if (!graph.vertices.has(key)) {
       graph.vertices.set(key, vertex);
@@ -94,19 +94,17 @@ const methods = {
 
   showGraph() {
     const result = new Map(graph.vertices);
-    result.forEach((vertex) => {
-      delete vertex.graph;
-    });
     return result;
   },
 
   async save(fileName) {
-    const vertices = [...graph.vertices.entries()];
-    const data = JSON.stringify(vertices);
+    const vertices = [graph.graphName, ...graph.vertices.entries()];
+    let data = JSON.stringify(vertices);
     if (fs.existsSync(`${fileName}.txt`)) {
-      fs.truncate(`${fileName}.txt`, (err) => {
-        if (err) throw err;
-      });
+      const file = fs
+        .readFileSync(`${fileName}.txt`, 'utf-8')
+        .replace(']]', '');
+      data = data.replace(file, '');
     }
     await fs.promises.appendFile(`${fileName}.txt`, data);
   },
