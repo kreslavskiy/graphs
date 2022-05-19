@@ -25,7 +25,7 @@ class Vertex {
 }
 
 class Graph {
-  constructor(graphName, keyField, vertices) {
+  constructor(graphName, keyField) {
     this.graphName = graphName;
     this.keyField = keyField;
     this.vertices = new Map();
@@ -35,7 +35,7 @@ class Graph {
 let graph = new Graph();
 
 const methods = {
-  createNewGraph(graphName, keyField, vertices) {
+  createNewGraph(graphName, keyField) {
     graph = new Graph(graphName, keyField);
   },
 
