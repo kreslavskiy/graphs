@@ -48,6 +48,12 @@ const commands = {
     const name = await question('Enter file name: ');
     graph.methods.save(name);
   },
+  async import() {
+    const fileName = await question('Enter file name: ');
+    const name = await question('Enter graph name: ');
+    const field = await question('Enter key field: ');
+    graph.methods.getGraphFromFile(fileName, name, field);
+  },
   show() {
     const res = graph.methods.showGraph();
     console.dir(res);

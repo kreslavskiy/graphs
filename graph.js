@@ -25,7 +25,7 @@ class Vertex {
 }
 
 class Graph {
-  constructor(graphName, keyField) {
+  constructor(graphName, keyField, vertices) {
     this.graphName = graphName;
     this.keyField = keyField;
     this.vertices = new Map();
@@ -35,7 +35,7 @@ class Graph {
 let graph = new Graph();
 
 const methods = {
-  createNewGraph(graphName, keyField) {
+  createNewGraph(graphName, keyField, vertices) {
     graph = new Graph(graphName, keyField);
   },
 
@@ -98,7 +98,7 @@ const methods = {
   },
 
   async save(fileName) {
-    const vertices = [graph.graphName, ...graph.vertices.entries()];
+    const vertices = Array.from(graph.vertices.entries());
     let data = JSON.stringify(vertices);
     if (fs.existsSync(`${fileName}.txt`)) {
       const file = fs
@@ -107,6 +107,13 @@ const methods = {
       data = data.replace(file, '');
     }
     await fs.promises.appendFile(`${fileName}.txt`, data);
+  },
+
+  getGraphFromFile(fileName, graphName, keyField) {
+    const file = fs.readFileSync(`${fileName}.txt`, 'utf-8');
+    const fileParsed = new Map(JSON.parse(file));
+    graph = new Graph(graphName, keyField);
+    graph.vertices = fileParsed;
   },
 };
 
