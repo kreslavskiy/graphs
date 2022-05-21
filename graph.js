@@ -98,8 +98,11 @@ const methods = {
   },
 
   async save(fileName) {
-    const vertices = Array.from(graph.vertices.entries());
-    let data = JSON.stringify(vertices);
+    const vertices = graph.vertices;
+    for (const vertex of vertices.values()) {
+      vertex.links = Array.from(vertex.links.entries());
+    }
+    let data = JSON.stringify(Array.from(vertices));
     if (fs.existsSync(`${fileName}.txt`)) {
       const file = fs
         .readFileSync(`${fileName}.txt`, 'utf-8')
