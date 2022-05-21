@@ -1,5 +1,6 @@
 'use strict';
 
+const { dir } = require('console');
 const readline = require('readline');
 const graph = require('./graph.js');
 
@@ -40,9 +41,15 @@ const commands = {
     const query = await question('Enter data: ');
     const links = await question('Enter links: ');
     const selected = graph.methods.select(query);
-    const linked = graph.methods.linked(links, selected);
-    if (links) console.dir(linked);
-    else console.dir(selected);
+    const linked = graph.methods.linked(links);
+    if (selected != [] && linked != []) {
+      const output = selected.filter(value => linked.includes(value));
+      console.dir(output);
+    } else if (selected === [] && linked !== []) {
+      console.dir(linked);
+    } else if (selected !== [] && linked === []) {
+      console.dir(selected);
+    }
   },
   async save() {
     const name = await question('Enter file name: ');

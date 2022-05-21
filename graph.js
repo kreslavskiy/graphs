@@ -9,7 +9,7 @@ class Vertex {
   constructor(graphName, data) {
     this.graphName = graphName;
     this.data = data;
-    this.links = new Map();
+    this.links = new Array();
   }
 
   link(...args) {
@@ -18,7 +18,7 @@ class Vertex {
     const keyField = graph.keyField;
     for (const item of distinct) {
       const key = item.data[keyField];
-      links.set(key, item);
+      links.push(key);
     }
     return this;
   }
@@ -79,14 +79,14 @@ const methods = {
     return result;
   },
 
-  linked(links, selectedByData) {
-    const result = [...selectedByData];
+  linked(links) {
+    const result = new Array();
     links = links.trim().replaceAll(',', '').split(' ');
-    for (const vertex of result) {
+    for (const vertex of graph.vertices.values()) {
       let condition = true;
       for (const link of links) {
-        condition &&= vertex.links.has(link);
-        if (!condition) result.splice(result.indexOf(vertex), 1);
+        condition &&= vertex.links.includes(link);
+        if (condition) result.push(vertex);
       }
     }
     return result;
@@ -98,11 +98,8 @@ const methods = {
   },
 
   async save(fileName) {
-    const vertices = graph.vertices;
-    for (const vertex of vertices.values()) {
-      vertex.links = Array.from(vertex.links.entries());
-    }
-    let data = JSON.stringify(Array.from(vertices));
+    const vertices = [...graph.vertices];
+    let data = JSON.stringify(vertices);
     if (fs.existsSync(`${fileName}.txt`)) {
       const file = fs
         .readFileSync(`${fileName}.txt`, 'utf-8')
