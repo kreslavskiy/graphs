@@ -67,13 +67,11 @@ const methods = {
     const input = deserialize(query);
     const result = new Array();
     for (const vertex of graph.vertices.values()) {
-      let condition = true;
       const { data } = vertex;
       if (data) {
         for (const field in input) {
-          condition &&= data[field] === input[field];
+          if (data[field] === input[field]) result.push(vertex);
         }
-        if (condition) result.push(vertex);
       }
     }
     return result;
@@ -83,10 +81,8 @@ const methods = {
     const result = new Array();
     links = links.trim().replaceAll(',', '').split(' ');
     for (const vertex of graph.vertices.values()) {
-      let condition = true;
       for (const link of links) {
-        condition &&= vertex.links.includes(link);
-        if (condition) result.push(vertex);
+        if (vertex.links.includes(link)) result.push(vertex);
       }
     }
     return result;
