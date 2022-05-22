@@ -89,8 +89,7 @@ const methods = {
   },
 
   showGraph() {
-    const result = new Map(graph.vertices);
-    return result;
+    return new Map(graph.vertices);
   },
 
   async save(fileName) {
