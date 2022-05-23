@@ -78,8 +78,7 @@ const commands = {
   },
 
   show() {
-    const res = graph.methods.showGraph();
-    console.dir(res);
+    graph.methods.showGraph();
   },
 
   exit() {

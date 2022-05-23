@@ -95,7 +95,8 @@ const methods = {
   },
 
   showGraph() {
-    return new Map(graph.vertices);
+    if (!graph.vertices.size) console.log('\x1b[31m', 'There is no vertices in graph', '\x1b[0m');
+    else console.dir(graph.vertices);
   },
 
   async save(fileName) {
