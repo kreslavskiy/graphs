@@ -5,6 +5,11 @@ const fs = require('fs');
 
 const deserialize = (src) => vm.createScript('({' + src + '})').runInThisContext();
 
+const removeFromArray = (array, value) => {
+  const index = array.indexOf(value);
+  array.splice(index, 1);
+};
+
 class Vertex {
   constructor(graphName, data) {
     this.graphName = graphName;
@@ -109,6 +114,16 @@ const methods = {
     const fileParsed = new Map(JSON.parse(file));
     graph = new Graph(graphName, keyField);
     graph.vertices = fileParsed;
+  },
+
+  deleteVertex(element) {
+    const vertices = graph.vertices;
+    const deleted = vertices.delete(element);
+    if (deleted) {
+      for (const vertex of vertices.values()) {
+        removeFromArray(vertex.links, element);
+      }
+    }
   },
 };
 

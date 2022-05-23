@@ -55,6 +55,11 @@ const commands = {
     }
   },
 
+  async delete() {
+    const vertexToDelete = await question('Enter vertex you want to delete: ');
+    graph.methods.deleteVertex(vertexToDelete);
+  },
+
   async save() {
     const name = await question('Enter file name: ');
     graph.methods.save(name);
