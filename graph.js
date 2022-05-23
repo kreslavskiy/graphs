@@ -166,4 +166,4 @@ const methods = {
   }
 };
 
-module.exports = { Graph, methods };
+module.exports = { methods };
