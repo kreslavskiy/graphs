@@ -96,6 +96,17 @@ const methods = {
     return result;
   },
 
+  modifyVertex(key, newData) {
+    const vertex = graph.vertices.get(key);
+    const extention = deserialize(newData);
+    for (const [key, value] of Object.entries(extention)) {
+      if (vertex.data.hasOwnProperty(key)) {
+        if (vertex.data[key] !== extention[key])
+          vertex.data[key] = extention[key];
+      } else vertex.data[key] = value;
+    }
+  },
+
   showGraph() {
     if (!graph.vertices.size) errorAlert('There is no vertices in graph');
     else console.dir(graph.vertices);

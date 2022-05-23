@@ -55,6 +55,12 @@ const commands = {
     }
   },
 
+  async modify() {
+    const vertex = await question('Vertex you want to modify: ');
+    const data = await question('Data you want to modify: ');
+    graph.methods.modifyVertex(vertex, data);
+  },
+
   async delete() {
     const vertexToDelete = await question('Enter vertex you want to delete: ');
     graph.methods.deleteVertex(vertexToDelete);
