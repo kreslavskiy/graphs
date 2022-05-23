@@ -11,6 +11,8 @@ const removeFromArray = (array, value) => {
   array.splice(index, 1);
 };
 
+const errorAlert = (message) => console.log('\x1b[31m', message, '\x1b[0m');
+
 class Vertex {
   constructor(graphName, data) {
     this.graphName = graphName;
@@ -52,7 +54,7 @@ const methods = {
       console.dir(data);
       const key = data[graph.keyField];
       if (!graph.vertices.has(key)) graph.vertices.set(key, vertex);
-    } else console.log('\x1b[31m', 'Vertex must contain key field', '\x1b[0m');
+    } else errorAlert('Vertex must contain key field');
     return vertex;
   },
 
@@ -95,7 +97,7 @@ const methods = {
   },
 
   showGraph() {
-    if (!graph.vertices.size) console.log('\x1b[31m', 'There is no vertices in graph', '\x1b[0m');
+    if (!graph.vertices.size) errorAlert('There is no vertices in graph');
     else console.dir(graph.vertices);
   },
 
