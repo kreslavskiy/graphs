@@ -142,7 +142,7 @@ const methods = {
   },
 
   deleteGraph(name) {
-    if (name === graph.graphName) graph = new Graph();
+    if (name === graph.graphName) graph.vertices.clear();
   }
 };
 
