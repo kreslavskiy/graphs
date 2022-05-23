@@ -3,7 +3,8 @@
 const vm = require('vm');
 const fs = require('fs');
 
-const deserialize = (src) => vm.createScript('({' + src + '})').runInThisContext();
+const deserialize = (src) =>
+  vm.createScript('({' + src + '})').runInThisContext();
 
 const removeFromArray = (array, value) => {
   const index = array.indexOf(value);

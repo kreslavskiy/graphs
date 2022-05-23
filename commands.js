@@ -46,7 +46,7 @@ const commands = {
     const selected = graph.methods.select(query);
     const linked = graph.methods.linked(links);
     if (selected != [] && linked != []) {
-      const output = selected.filter(value => linked.includes(value));
+      const output = selected.filter((value) => linked.includes(value));
       console.dir(output);
     } else if (selected === [] && linked !== []) {
       console.dir(linked);
