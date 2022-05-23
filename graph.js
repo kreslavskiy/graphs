@@ -126,6 +126,10 @@ const methods = {
       }
     }
   },
+
+  deleteGraph(name) {
+    if (name === graph.graphName) graph = new Graph();
+  }
 };
 
 module.exports = { Graph, methods };

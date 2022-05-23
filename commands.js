@@ -72,6 +72,11 @@ const commands = {
     graph.methods.getGraphFromFile(fileName, name, field);
   },
 
+  async clear() {
+    const graphName = await question('Enter name of graph you want to clear: ');
+    graph.methods.deleteGraph(graphName);
+  },
+
   show() {
     const res = graph.methods.showGraph();
     console.dir(res);
