@@ -46,12 +46,12 @@ const methods = {
 
   add(input) {
     const data = deserialize(input);
-    console.dir(data);
     const vertex = new Vertex(graph.graphName, data);
-    const key = data[graph.keyField];
-    if (!graph.vertices.has(key)) {
-      graph.vertices.set(key, vertex);
-    }
+    if (data.hasOwnProperty(graph.keyField)) {
+      console.dir(data);
+      const key = data[graph.keyField];
+      if (!graph.vertices.has(key)) graph.vertices.set(key, vertex);
+    } else console.log('\x1b[31m', 'Vertex must contain key field', '\x1b[0m');
     return vertex;
   },
 
