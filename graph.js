@@ -96,15 +96,32 @@ const methods = {
     return result;
   },
 
-  modifyVertex(key, newData) {
-    const vertex = graph.vertices.get(key);
+  modifyVertex(link, newData) {
+    const vertex = graph.vertices.get(link);
     const extention = deserialize(newData);
+    const keyField = graph.keyField;
+
+    if (graph.vertices.has(extention[keyField]))
+      return errorAlert('Vertex with this key field is already exists');
+
     for (const [key, value] of Object.entries(extention)) {
       if (vertex.data.hasOwnProperty(key)) {
         if (vertex.data[key] !== extention[key])
           vertex.data[key] = extention[key];
       } else vertex.data[key] = value;
     }
+
+    if (link !== vertex.data[keyField]) {
+      graph.vertices.set(vertex.data[keyField], vertex);
+      graph.vertices.delete(link);
+    }
+
+    for (const element of graph.vertices.values()) {
+      if (element.links.includes(link)) {
+        element.links[element.links.indexOf(link)] = vertex.data[keyField];
+      }
+    }
+
   },
 
   showGraph() {
@@ -143,7 +160,7 @@ const methods = {
 
   deleteGraph(name) {
     if (name === graph.graphName) graph.vertices.clear();
-  }
+  },
 };
 
 module.exports = { Graph, methods };
