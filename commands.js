@@ -66,6 +66,12 @@ const commands = {
     graph.methods.deleteVertex(vertexToDelete);
   },
 
+  async unlink() {
+    const deleteFrom = await question('Vertex you want to delete links from: ');
+    const deleted = await question('Links you want to delete: ');
+    graph.methods.deleteLinks(deleteFrom, deleted);
+  },
+
   async save() {
     const name = await question('Enter file name: ');
     graph.methods.save(name);

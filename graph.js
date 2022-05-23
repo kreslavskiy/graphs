@@ -134,6 +134,15 @@ const methods = {
     if (name === graph.graphName) graph.vertices.clear();
   },
 
+  deleteLinks(deleteFrom, deleteWhat) {
+    const linksToDelete = deleteWhat.trim().replaceAll(',', '').split(' ');
+    const vertex = graph.vertices.get(deleteFrom);
+    for (const link of linksToDelete) {
+      const index = vertex.links.indexOf(link);
+      vertex.links.splice(index, 1);
+    }
+  },
+
   modifyVertex(link, newData) {
     const vertex = graph.vertices.get(link);
     const extention = deserialize(newData);
