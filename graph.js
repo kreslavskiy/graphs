@@ -145,23 +145,27 @@ const methods = {
 
   modifyVertex(link, newData) {
     const vertex = graph.vertices.get(link);
-    const extention = deserialize(newData);
+    const modificator = deserialize(newData);
     const keyField = graph.keyField;
 
-    if (graph.vertices.has(extention[keyField]))
+    if (graph.vertices.has(modificator[keyField]))
       return errorAlert('Vertex with this key field is already exists');
 
-    for (const [key, value] of Object.entries(extention)) {
+    for (const [key, value] of Object.entries(modificator)) {
       if (vertex.data.hasOwnProperty(key)) {
-        if (vertex.data[key] !== extention[key])
-          vertex.data[key] = extention[key];
+        if (vertex.data[key] !== modificator[key])
+          vertex.data[key] = modificator[key];
       } else vertex.data[key] = value;
     }
 
-    if (link !== vertex.data[keyField]) {
-      graph.vertices.set(vertex.data[keyField], vertex);
-      graph.vertices.delete(link);
-      this.renameLinks(link, vertex.data[keyField])
+    this.renameKey(link, vertex.data[keyField], vertex);
+    this.renameLinks(link, vertex.data[keyField])
+  },
+
+  renameKey(oldKey, newKey, data) {
+    if (oldKey !== newKey) {
+      graph.vertices.set(newKey, data);
+      graph.vertices.delete(oldKey);
     }
   },
 
