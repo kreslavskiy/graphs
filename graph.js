@@ -63,15 +63,34 @@ const methods = {
     const destinationArray = destination.trim().replaceAll(',', '').split(' ');
     const vertices = graph.vertices;
     for (const vertex of sourceArray) {
-      const from = vertices.get(vertex);
+      const from = vertices.get(vertex); //
       for (const link of destinationArray) {
         if (from) {
-          const target = vertices.get(link);
+          const target = vertices.get(link);//
           if (target) from.link(target);
         }
       }
     }
   },
+
+  linkBoth(source, destination) {
+    const sourceArray = source.trim().replaceAll(',', '').split(' ');
+    const destinationArray = destination.trim().replaceAll(',', '').split(' ');
+    const vertices = graph.vertices;
+    for (const vertex of sourceArray) {
+      const from = vertices.get(vertex); //
+      for (const link of destinationArray) {
+        if (from) {
+          const target = vertices.get(link);//
+          if (target){
+            from.link(target);
+            target.link(from);
+          } 
+        }
+      }
+    }
+  },
+
 
   select(query) {
     const input = deserialize(query);

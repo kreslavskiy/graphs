@@ -40,6 +40,12 @@ const commands = {
     graph.methods.link(linkFrom, linkTo);
   },
 
+  async linkBoth() {
+    const linkFrom = await question('From: ');
+    const linkTo = await question('To: ');
+    graph.methods.linkBoth(linkFrom, linkTo);
+  },
+
   async select() {
     const query = await question('Enter data: ');
     const links = await question('Enter links: ');
