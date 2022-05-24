@@ -157,26 +157,21 @@ const methods = {
           vertex.data[key] = modificator[key];
       } else vertex.data[key] = value;
     }
-
-    this.renameKey(link, vertex.data[keyField], vertex);
-    this.renameLinks(link, vertex.data[keyField])
-  },
-
-  renameKey(oldKey, newKey, data) {
-    if (oldKey !== newKey) {
-      graph.vertices.set(newKey, data);
-      graph.vertices.delete(oldKey);
+    if (link !== vertex.data[keyField]) {
+      this.renameKey(link, vertex.data[keyField], vertex);
     }
   },
 
-  renameLinks(oldName, newName) {
+  renameKey(oldName, newName, data) {
+    graph.vertices.set(newName, data);
+    graph.vertices.delete(oldName);
     for (const vertex of graph.vertices.values()) {
       if (vertex.links.includes(oldName)) {
         const index = vertex.links.indexOf(oldName);
         vertex.links[index] = newName;
       }
     }
-  }
+  },
 };
 
 module.exports = { methods };
