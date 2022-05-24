@@ -58,17 +58,19 @@ const methods = {
     return vertex;
   },
 
-  link(source) {
+  link(source, destination) {
+    const sourceArray = source.trim().replaceAll(',', '').split(' ');
+    const destinationArray = destination.trim().replaceAll(',', '').split(' ');
     const vertices = graph.vertices;
-    const from = vertices.get(source);
-    return {
-      to(destination) {
+    for (const vertex of sourceArray) {
+      const from = vertices.get(vertex);
+      for (const link of destinationArray) {
         if (from) {
-          const target = vertices.get(destination.toString());
+          const target = vertices.get(link);
           if (target) from.link(target);
         }
-      },
-    };
+      }
+    }
   },
 
   select(query) {

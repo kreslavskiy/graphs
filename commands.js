@@ -37,7 +37,7 @@ const commands = {
   async link() {
     const linkFrom = await question('From: ');
     const linkTo = await question('To: ');
-    graph.methods.link(linkFrom).to(linkTo);
+    graph.methods.link(linkFrom, linkTo);
   },
 
   async select() {
