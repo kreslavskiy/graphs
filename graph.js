@@ -8,8 +8,10 @@ const deserialize = (src) =>
   vm.createScript('({' + src + '})').runInThisContext();
 
 const removeFromArray = (array, value) => {
-  const index = array.indexOf(value);
-  array.splice(index, 1);
+  if (array.includes(value)) {
+    const index = array.indexOf(value);
+    array.splice(index, 1);
+  }
 };
 
 const errorAlert = (message) => console.log('\x1b[31m', message, '\x1b[0m');
@@ -142,8 +144,7 @@ const methods = {
     const linksToDelete = deleteWhat.trim().replaceAll(',', '').split(' ');
     const vertex = graph.vertices.get(deleteFrom);
     for (const link of linksToDelete) {
-      const index = vertex.links.indexOf(link);
-      vertex.links.splice(index, 1);
+      removeFromArray(vertex.links, link);
     }
   },
 
