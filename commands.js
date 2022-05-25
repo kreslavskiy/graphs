@@ -6,7 +6,9 @@ const graph = require('./graph.js');
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
+  prompt: '> ',
 });
+
 
 rl.on('line', (line) => {
   line = line.trim();
@@ -15,6 +17,8 @@ rl.on('line', (line) => {
   else console.log('\x1b[31m', 'Unknown command', '\x1b[0m');
   rl.prompt();
 }).on('close', () => process.exit(0));
+
+rl.prompt();
 
 const question = (str) => new Promise((answer) => rl.question(str, answer));
 
@@ -34,16 +38,16 @@ const commands = {
     graph.methods.add(input);
   },
 
-  async link() {
+  async dlink() {
     const linkFrom = await question('From: ');
     const linkTo = await question('To: ');
     graph.methods.link(linkFrom, linkTo);
   },
 
-  async linkBoth() {
+  async link() {
     const linkFrom = await question('From: ');
     const linkTo = await question('To: ');
-    graph.methods.linkBoth(linkFrom, linkTo);
+    graph.methods.link(linkFrom, linkTo, true);
   },
 
   async select() {

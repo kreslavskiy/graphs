@@ -2,6 +2,7 @@
 
 const vm = require('vm');
 const fs = require('fs');
+const { takeCoverage } = require('v8');
 
 const deserialize = (src) =>
   vm.createScript('({' + src + '})').runInThisContext();
@@ -58,39 +59,21 @@ const methods = {
     return vertex;
   },
 
-  link(source, destination) {
-    const sourceArray = source.trim().replaceAll(',', '').split(' ');
-    const destinationArray = destination.trim().replaceAll(',', '').split(' ');
+  link(source, destination, directed = false) {
+    const sources = source.trim().replaceAll(',', '').split(' ');
+    const destinations = destination.trim().replaceAll(',', '').split(' ');
     const vertices = graph.vertices;
-    for (const vertex of sourceArray) {
-      const from = vertices.get(vertex); //
-      for (const link of destinationArray) {
-        if (from) {
-          const target = vertices.get(link);//
-          if (target) from.link(target);
+    for (const vertex of sources) {
+      const from = vertices.get(vertex);
+      for (const link of destinations) {
+        const target = vertices.get(link);
+        if (from && target && !from.links.includes(link)) {
+          from.link(target);
+          if (directed && !target.links.includes(vertex)) target.link(from);
         }
       }
     }
   },
-
-  linkBoth(source, destination) {
-    const sourceArray = source.trim().replaceAll(',', '').split(' ');
-    const destinationArray = destination.trim().replaceAll(',', '').split(' ');
-    const vertices = graph.vertices;
-    for (const vertex of sourceArray) {
-      const from = vertices.get(vertex); //
-      for (const link of destinationArray) {
-        if (from) {
-          const target = vertices.get(link);//
-          if (target){
-            from.link(target);
-            target.link(from);
-          } 
-        }
-      }
-    }
-  },
-
 
   select(query) {
     const input = deserialize(query);
