@@ -2,7 +2,6 @@
 
 const vm = require('vm');
 const fs = require('fs');
-const { takeCoverage } = require('v8');
 
 const deserialize = (src) =>
   vm.createScript('({' + src + '})').runInThisContext();
