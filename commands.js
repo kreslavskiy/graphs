@@ -10,10 +10,10 @@ const rl = readline.createInterface({
 });
 
 
-rl.on('line', (line) => {
+rl.on('line', async (line) => {
   line = line.trim();
   const command = commands[line];
-  if (command) command();
+  if (command) await command();
   else console.log('\x1b[31m', 'Unknown command', '\x1b[0m');
   rl.prompt();
 }).on('close', () => process.exit(0));

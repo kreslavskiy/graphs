@@ -107,19 +107,20 @@ const methods = {
   },
 
   async save(fileName) {
+    const file = `${fileName}.json`;
     const vertices = [...graph.vertices];
     let data = JSON.stringify(vertices);
-    if (fs.existsSync(`${fileName}.txt`)) {
+    if (fs.existsSync(file)) {
       const file = fs
-        .readFileSync(`${fileName}.txt`, 'utf-8')
+        .readFileSync(file, 'utf-8')
         .replace(']]', '');
       data = data.replace(file, '');
     }
-    await fs.promises.appendFile(`${fileName}.txt`, data);
+    await fs.promises.appendFile(file, data);
   },
 
   getGraphFromFile(fileName, graphName, keyField) {
-    const file = fs.readFileSync(`${fileName}.txt`, 'utf-8');
+    const file = fs.readFileSync(`${fileName}.json`, 'utf-8');
     const fileParsed = new Map(JSON.parse(file));
     graph = new Graph(graphName, keyField);
     graph.vertices = fileParsed;
