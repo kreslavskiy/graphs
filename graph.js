@@ -108,13 +108,14 @@ const methods = {
 
   async save(fileName) {
     const file = `${fileName}.json`;
-    const vertices = [...graph.vertices];
+    const vertices = Object.fromEntries(graph.vertices);
     let data = JSON.stringify(vertices);
     if (fs.existsSync(file)) {
-      const file = fs
-        .readFileSync(file, 'utf-8')
-        .replace(']]', '');
-      data = data.replace(file, '');
+      const oldData = JSON.parse(fs.readFileSync(file, 'utf-8'));
+      data = JSON.stringify(Object.assign(oldData, vertices));
+      fs.truncate(file, err => {
+        if(err) throw err;
+     });
     }
     await fs.promises.appendFile(file, data);
   },
