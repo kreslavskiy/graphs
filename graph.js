@@ -138,11 +138,15 @@ const methods = {
     await fs.promises.appendFile(file, data);
   },
 
-  getGraphFromFile(fileName, graphName, keyField) {
-    const file = fs.readFileSync(`${fileName}.json`, 'utf-8');
-    const fileParsed = new Map(JSON.parse(file));
-    graph = new Graph(graphName, keyField);
-    graph.vertices = fileParsed;
+  getGraphFromFile(fileName, keyField) {
+    const file = `${fileName}.json`;
+    if (fs.existsSync(file)) {
+      const content = fs.readFileSync(file, 'utf-8');
+      const vertices = new Map(Object.entries(JSON.parse(content)));
+      const [vertex] = fileParsed.values(); 
+      graph = new Graph(vertex.graphName, keyField);
+      graph.vertices = vertices;
+    } else errorAlert('This file does not exist');
   },
 
   deleteVertex(element) {

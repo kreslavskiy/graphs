@@ -89,9 +89,8 @@ const commands = {
 
   async import() {
     const fileName = await question('Enter file name: ');
-    const name = await question('Enter graph name: ');
     const field = await question('Enter key field: ');
-    graph.methods.getGraphFromFile(fileName, name, field);
+    graph.methods.getGraphFromFile(fileName, field);
   },
 
   async clear() {
