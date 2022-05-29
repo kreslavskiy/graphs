@@ -142,7 +142,8 @@ const methods = {
     const file = `${fileName}.json`;
     if (fs.existsSync(file)) {
       const content = fs.readFileSync(file, 'utf-8');
-      const vertices = new Map(Object.entries(JSON.parse(content)));
+      const data = Object.entries(JSON.parse(content));
+      const vertices = new Map(data);
       const [vertex] = fileParsed.values(); 
       graph = new Graph(vertex.graphName, keyField);
       graph.vertices = vertices;
