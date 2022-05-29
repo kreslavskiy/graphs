@@ -9,7 +9,6 @@ const rl = readline.createInterface({
   prompt: '> ',
 });
 
-
 rl.on('line', async (line) => {
   line = line.trim();
   const command = commands[line];

@@ -2,7 +2,6 @@
 
 const vm = require('vm');
 const fs = require('fs');
-const { type } = require('os');
 
 const deserialize = (src) =>
   vm.createScript('({' + src + '})').runInThisContext();
@@ -52,22 +51,24 @@ const methods = {
 
   add(input) {
     input = input.replaceAll(' ', '');
-    let comma = 0, colon = 0;
-    for(const char of input){
-      if(char === ':') colon++;
-      else if(char === ',') comma++;
+    let comma = 0,
+      colon = 0;
+    for (const char of input) {
+      if (char === ':') colon++;
+      else if (char === ',') comma++;
     }
-    if(colon - comma !== 1) 
-    return errorAlert(
-      'please enter something like this:  "property1: value1, property2: value2 "'
+    if (colon - comma !== 1)
+      return errorAlert(
+        'please enter something like this:  "property1: value1, property2: value2 "'
       );
 
-      if(!comma){ 
-       let entry = input.split(':') || [];
-       let property = entry[0], value = entry[1];
-       if(Number(value).toString() !== value) value = `'${value}'`;
-       input = property + ':' + value;
-      }
+    if (!comma) {
+      let entry = input.split(':') || [];
+      let property = entry[0],
+        value = entry[1];
+      if (Number(value).toString() !== value) value = `'${value}'`;
+      input = property + ':' + value;
+    }
     const data = deserialize(input);
     const vertex = new Vertex(graph.graphName, data);
     if (data.hasOwnProperty(graph.keyField)) {
@@ -131,9 +132,9 @@ const methods = {
     if (fs.existsSync(file)) {
       const oldData = JSON.parse(fs.readFileSync(file, 'utf-8'));
       data = JSON.stringify(Object.assign(oldData, vertices));
-      fs.truncate(file, err => {
-        if(err) throw err;
-     });
+      fs.truncate(file, (err) => {
+        if (err) throw err;
+      });
     }
     await fs.promises.appendFile(file, data);
   },
@@ -144,7 +145,7 @@ const methods = {
       const content = fs.readFileSync(file, 'utf-8');
       const data = Object.entries(JSON.parse(content));
       const vertices = new Map(data);
-      const [vertex] = fileParsed.values(); 
+      const [vertex] = fileParsed.values();
       graph = new Graph(vertex.graphName, keyField);
       graph.vertices = vertices;
     } else errorAlert('This file does not exist');
