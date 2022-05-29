@@ -50,6 +50,17 @@ const methods = {
   },
 
   add(input) {
+    let comma = 0, colon = 0;
+    for(const char of input){
+      if(char === ':') colon++;
+      else if(char === ',') comma++;
+      console.log(input, comma, colon);
+    }
+    if(colon - comma !== 1) 
+    return errorAlert(
+      'please enter something like this:  "property1: value1, property2: value2 "'
+      );
+
     const data = deserialize(input);
     const vertex = new Vertex(graph.graphName, data);
     if (data.hasOwnProperty(graph.keyField)) {
