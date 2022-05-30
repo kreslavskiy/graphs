@@ -1,10 +1,9 @@
-"use strict";
+'use strict';
 
-const vm = require("vm");
-const fs = require("fs");
+const vm = require('vm');
+const fs = require('fs');
 
-const deserialize = (src) =>
-  vm.createScript("({" + src + "})").runInThisContext();
+const deserialize = (src) => vm.createScript('({' + src + '})').runInThisContext();
 
 const removeFromArray = (array, value) => {
   if (array.includes(value)) {
@@ -13,44 +12,43 @@ const removeFromArray = (array, value) => {
   }
 };
 
-const errorAlert = (message) => console.log("\x1b[31m", message, "\x1b[0m");
+const errorAlert = (message) => console.log('\x1b[31m', message, '\x1b[0m');
 
-const checkInput = (line, commas, colons) => {
-  if (colons - commas !== 1){
+const isNumber = (value) => Number(value).toString() !== value ? `'${value}'` : value;
+
+const checkInput = (line) => {
+  const commas = (line.match(/,/g) || []).length;
+  const colons = (line.match(/:/g) || []).length;
+  if (colons - commas !== 1)
     return errorAlert(
       'Please enter something like this:  "property1: value1, property2: value2 "'
     );
-  }
 
-  if (line.match(/['"]/g)){
-    return  errorAlert(
-      "Please enter without quotes, like here:  name: Billy, age: 23"
-    );
-  }
-    return true;
-}
+  if (line.match(/['"]/g))
+    return errorAlert('Please enter without quotes');
+
+  return true;
+};
 
 const addQuotes = (line, condition) => {
-  if (!condition) {
-    let entry = line.split(":") || [];
-    let property = entry[0],
-      value = entry[1];
-    if (Number(value).toString() !== value) value = `'${value}'`;
-    line = property + ":" + value;
-    return line;
-  } else {
-    let result = [];
-    let entries = line.split(",");
+  if (condition) {
+    const result = [];
+    const entries = line.split(',');
     for (let entry of entries) {
-      entry = entry.split(":");
-      let value = entry[1];
-      entry[1] = Number(value).toString() !== value ? `'${value}'` : value;
-      entry = entry.join(":");
+      entry = entry.split(':');
+      entry[1] = isNumber(entry[1]);
+      entry = entry.join(':');
       result.push(entry);
     }
-    return result.join(",");
+    return result.join(',');
+  } else {
+    let entry = line.split(':');
+    const key = entry[0];
+    const value = isNumber(entry[1]);
+    line = key + ':' + value;
+    return line;
   }
-}
+};
 
 class Vertex {
   constructor(graphName, data) {
@@ -87,24 +85,22 @@ const methods = {
   },
 
   add(input) {
-    input = input.replaceAll(" ", "");
-    let comma = (input.match(/,/g)|| []).length; 
-    let colon = (input.match(/:/g)|| []).length;
-    if(!checkInput(input, comma, colon)) return;
-    input = addQuotes(input, comma);
-    const data = deserialize(input);
+    input = input.replaceAll(' ', '');
+    if (!checkInput(input)) return;
+    const inputNormalized = addQuotes(input, checkInput(input));
+    const data = deserialize(inputNormalized);
     const vertex = new Vertex(graph.graphName, data);
     if (data.hasOwnProperty(graph.keyField)) {
       console.dir(data);
       const key = data[graph.keyField];
       if (!graph.vertices.has(key)) graph.vertices.set(key, vertex);
-    } else errorAlert("Vertex must contain key field");
+    } else errorAlert('Vertex must contain key field');
     return vertex;
   },
 
   link(source, destination, directed = false) {
-    const sources = source.trim().replaceAll(",", "").split(" ");
-    const destinations = destination.trim().replaceAll(",", "").split(" ");
+    const sources = source.trim().replaceAll(',', '').split(' ');
+    const destinations = destination.trim().replaceAll(',', '').split(' ');
     const vertices = graph.vertices;
     for (const vertex of sources) {
       const from = vertices.get(vertex);
@@ -119,7 +115,9 @@ const methods = {
   },
 
   select(query) {
-    const input = deserialize(query);
+    if (!checkInput(query)) return;
+    const normalized = addQuotes(query, checkInput(query));
+    const input = deserialize(normalized);
     const result = new Array();
     for (const vertex of graph.vertices.values()) {
       const { data } = vertex;
@@ -134,7 +132,7 @@ const methods = {
 
   linked(links) {
     const result = new Array();
-    links = links.trim().replaceAll(",", "").split(" ");
+    links = links.trim().replaceAll(',', '').split(' ');
     for (const vertex of graph.vertices.values()) {
       for (const link of links) {
         if (vertex.links.includes(link)) result.push(vertex);
@@ -144,7 +142,7 @@ const methods = {
   },
 
   showGraph() {
-    if (!graph.vertices.size) errorAlert("There is no vertices in graph");
+    if (!graph.vertices.size) errorAlert('There is no vertices in graph');
     else console.dir(graph.vertices);
   },
 
@@ -153,7 +151,7 @@ const methods = {
     const vertices = Object.fromEntries(graph.vertices);
     let data = JSON.stringify(vertices);
     if (fs.existsSync(file)) {
-      const oldData = JSON.parse(fs.readFileSync(file, "utf-8"));
+      const oldData = JSON.parse(fs.readFileSync(file, 'utf-8'));
       data = JSON.stringify(Object.assign(oldData, vertices));
       fs.truncate(file, (err) => {
         if (err) throw err;
@@ -165,13 +163,13 @@ const methods = {
   getGraphFromFile(fileName, keyField) {
     const file = `${fileName}.json`;
     if (fs.existsSync(file)) {
-      const content = fs.readFileSync(file, "utf-8");
+      const content = fs.readFileSync(file, 'utf-8');
       const data = Object.entries(JSON.parse(content));
       const vertices = new Map(data);
       const [vertex] = fileParsed.values();
       graph = new Graph(vertex.graphName, keyField);
       graph.vertices = vertices;
-    } else errorAlert("This file does not exist");
+    } else errorAlert('This file does not exist');
   },
 
   deleteVertex(element) {
@@ -189,7 +187,7 @@ const methods = {
   },
 
   deleteLinks(deleteFrom, deleteWhat) {
-    const linksToDelete = deleteWhat.trim().replaceAll(",", "").split(" ");
+    const linksToDelete = deleteWhat.trim().replaceAll(',', '').split(' ');
     const vertex = graph.vertices.get(deleteFrom);
     for (const link of linksToDelete) {
       removeFromArray(vertex.links, link);
@@ -202,7 +200,7 @@ const methods = {
     const keyField = graph.keyField;
 
     if (graph.vertices.has(modificator[keyField]))
-      return errorAlert("Vertex with this key field is already exists");
+      return errorAlert('Vertex with this key field is already exists');
 
     for (const [key, value] of Object.entries(modificator)) {
       if (vertex.data.hasOwnProperty(key)) {
