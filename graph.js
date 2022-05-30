@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
-const vm = require('vm');
-const fs = require('fs');
+const vm = require("vm");
+const fs = require("fs");
 
 const deserialize = (src) =>
-  vm.createScript('({' + src + '})').runInThisContext();
+  vm.createScript("({" + src + "})").runInThisContext();
 
 const removeFromArray = (array, value) => {
   if (array.includes(value)) {
@@ -13,7 +13,7 @@ const removeFromArray = (array, value) => {
   }
 };
 
-const errorAlert = (message) => console.log('\x1b[31m', message, '\x1b[0m');
+const errorAlert = (message) => console.log("\x1b[31m", message, "\x1b[0m");
 
 class Vertex {
   constructor(graphName, data) {
@@ -50,24 +50,40 @@ const methods = {
   },
 
   add(input) {
-    input = input.replaceAll(' ', '');
+    input = input.replaceAll(" ", "");
     let comma = 0,
       colon = 0;
     for (const char of input) {
-      if (char === ':') colon++;
-      else if (char === ',') comma++;
+      if (char === ":") colon++;
+      else if (char === ",") comma++;
     }
     if (colon - comma !== 1)
       return errorAlert(
         'please enter something like this:  "property1: value1, property2: value2 "'
       );
 
+    if (input.match(/['"]/g))
+      return errorAlert(
+        "please enter without quotes, like here:  name: Billy, age: 23"
+      );
+
     if (!comma) {
-      let entry = input.split(':') || [];
+      let entry = input.split(":") || [];
       let property = entry[0],
         value = entry[1];
       if (Number(value).toString() !== value) value = `'${value}'`;
-      input = property + ':' + value;
+      input = property + ":" + value;
+    } else {
+      let result = [];
+      let entries = input.split(",");
+      for (let entry of entries) {
+        entry = entry.split(":");
+        let value = entry[1];
+        entry[1] = Number(value).toString() !== value ? `'${value}'` : value;
+        entry = entry.join(":");
+        result.push(entry);
+      }
+      input = result.join(",");
     }
     const data = deserialize(input);
     const vertex = new Vertex(graph.graphName, data);
@@ -75,13 +91,13 @@ const methods = {
       console.dir(data);
       const key = data[graph.keyField];
       if (!graph.vertices.has(key)) graph.vertices.set(key, vertex);
-    } else errorAlert('Vertex must contain key field');
+    } else errorAlert("Vertex must contain key field");
     return vertex;
   },
 
   link(source, destination, directed = false) {
-    const sources = source.trim().replaceAll(',', '').split(' ');
-    const destinations = destination.trim().replaceAll(',', '').split(' ');
+    const sources = source.trim().replaceAll(",", "").split(" ");
+    const destinations = destination.trim().replaceAll(",", "").split(" ");
     const vertices = graph.vertices;
     for (const vertex of sources) {
       const from = vertices.get(vertex);
@@ -111,7 +127,7 @@ const methods = {
 
   linked(links) {
     const result = new Array();
-    links = links.trim().replaceAll(',', '').split(' ');
+    links = links.trim().replaceAll(",", "").split(" ");
     for (const vertex of graph.vertices.values()) {
       for (const link of links) {
         if (vertex.links.includes(link)) result.push(vertex);
@@ -121,7 +137,7 @@ const methods = {
   },
 
   showGraph() {
-    if (!graph.vertices.size) errorAlert('There is no vertices in graph');
+    if (!graph.vertices.size) errorAlert("There is no vertices in graph");
     else console.dir(graph.vertices);
   },
 
@@ -130,7 +146,7 @@ const methods = {
     const vertices = Object.fromEntries(graph.vertices);
     let data = JSON.stringify(vertices);
     if (fs.existsSync(file)) {
-      const oldData = JSON.parse(fs.readFileSync(file, 'utf-8'));
+      const oldData = JSON.parse(fs.readFileSync(file, "utf-8"));
       data = JSON.stringify(Object.assign(oldData, vertices));
       fs.truncate(file, (err) => {
         if (err) throw err;
@@ -142,13 +158,13 @@ const methods = {
   getGraphFromFile(fileName, keyField) {
     const file = `${fileName}.json`;
     if (fs.existsSync(file)) {
-      const content = fs.readFileSync(file, 'utf-8');
+      const content = fs.readFileSync(file, "utf-8");
       const data = Object.entries(JSON.parse(content));
       const vertices = new Map(data);
       const [vertex] = fileParsed.values();
       graph = new Graph(vertex.graphName, keyField);
       graph.vertices = vertices;
-    } else errorAlert('This file does not exist');
+    } else errorAlert("This file does not exist");
   },
 
   deleteVertex(element) {
@@ -166,7 +182,7 @@ const methods = {
   },
 
   deleteLinks(deleteFrom, deleteWhat) {
-    const linksToDelete = deleteWhat.trim().replaceAll(',', '').split(' ');
+    const linksToDelete = deleteWhat.trim().replaceAll(",", "").split(" ");
     const vertex = graph.vertices.get(deleteFrom);
     for (const link of linksToDelete) {
       removeFromArray(vertex.links, link);
@@ -179,7 +195,7 @@ const methods = {
     const keyField = graph.keyField;
 
     if (graph.vertices.has(modificator[keyField]))
-      return errorAlert('Vertex with this key field is already exists');
+      return errorAlert("Vertex with this key field is already exists");
 
     for (const [key, value] of Object.entries(modificator)) {
       if (vertex.data.hasOwnProperty(key)) {
