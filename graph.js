@@ -15,6 +15,43 @@ const removeFromArray = (array, value) => {
 
 const errorAlert = (message) => console.log("\x1b[31m", message, "\x1b[0m");
 
+const checkInput = (line, commas, colons) => {
+  if (colons - commas !== 1){
+    return errorAlert(
+      'Please enter something like this:  "property1: value1, property2: value2 "'
+    );
+  }
+
+  if (line.match(/['"]/g)){
+    return  errorAlert(
+      "Please enter without quotes, like here:  name: Billy, age: 23"
+    );
+  }
+    return true;
+}
+
+const addQuotes = (line, condition) => {
+  if (!condition) {
+    let entry = line.split(":") || [];
+    let property = entry[0],
+      value = entry[1];
+    if (Number(value).toString() !== value) value = `'${value}'`;
+    line = property + ":" + value;
+    return line;
+  } else {
+    let result = [];
+    let entries = line.split(",");
+    for (let entry of entries) {
+      entry = entry.split(":");
+      let value = entry[1];
+      entry[1] = Number(value).toString() !== value ? `'${value}'` : value;
+      entry = entry.join(":");
+      result.push(entry);
+    }
+    return result.join(",");
+  }
+}
+
 class Vertex {
   constructor(graphName, data) {
     this.graphName = graphName;
@@ -51,40 +88,10 @@ const methods = {
 
   add(input) {
     input = input.replaceAll(" ", "");
-    let comma = 0,
-      colon = 0;
-    for (const char of input) {
-      if (char === ":") colon++;
-      else if (char === ",") comma++;
-    }
-    if (colon - comma !== 1)
-      return errorAlert(
-        'please enter something like this:  "property1: value1, property2: value2 "'
-      );
-
-    if (input.match(/['"]/g))
-      return errorAlert(
-        "please enter without quotes, like here:  name: Billy, age: 23"
-      );
-
-    if (!comma) {
-      let entry = input.split(":") || [];
-      let property = entry[0],
-        value = entry[1];
-      if (Number(value).toString() !== value) value = `'${value}'`;
-      input = property + ":" + value;
-    } else {
-      let result = [];
-      let entries = input.split(",");
-      for (let entry of entries) {
-        entry = entry.split(":");
-        let value = entry[1];
-        entry[1] = Number(value).toString() !== value ? `'${value}'` : value;
-        entry = entry.join(":");
-        result.push(entry);
-      }
-      input = result.join(",");
-    }
+    let comma = (input.match(/,/g)|| []).length; 
+    let colon = (input.match(/:/g)|| []).length;
+    if(!checkInput(input, comma, colon)) return;
+    input = addQuotes(input, comma);
     const data = deserialize(input);
     const vertex = new Vertex(graph.graphName, data);
     if (data.hasOwnProperty(graph.keyField)) {
