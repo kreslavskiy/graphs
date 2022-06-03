@@ -46,7 +46,7 @@ const methods = {
   add(input) {
     input = input.replaceAll(' ', '');
     if (!checkInput(input)) return;
-    const inputNormalized = addQuotes(input, checkInput(input));
+    const inputNormalized = addQuotes(input);
     const data = deserialize(inputNormalized);
     const vertex = new Vertex(graph.graphName, data);
     if (data.hasOwnProperty(graph.keyField)) {
