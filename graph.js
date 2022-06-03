@@ -44,7 +44,6 @@ const methods = {
   },
 
   add(input) {
-    input = input.replaceAll(' ', '');
     if (!checkInput(input)) return;
     const inputNormalized = addQuotes(input);
     const data = deserialize(inputNormalized);
@@ -154,8 +153,9 @@ const methods = {
   },
 
   modifyVertex(link, newData) {
+    if (!checkInput(newData)) return;
+    const modificator = deserialize(addQuotes(newData));
     const vertex = graph.vertices.get(link);
-    const modificator = deserialize(newData);
     const keyField = graph.keyField;
 
     if (graph.vertices.has(modificator[keyField]))

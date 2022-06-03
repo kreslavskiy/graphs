@@ -32,7 +32,7 @@ const checkInput = (line) => {
 
 const addQuotes = (line) => {
   const result = [];
-  const entries = line.split(',');
+  const entries = line.replaceAll(' ', '').split(',');
   for (const entry of entries) {
     const data = entry.split(':');
     data[1] = isNumber(data[1]);
