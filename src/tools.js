@@ -12,7 +12,13 @@ const removeFromArray = (array, value) => {
   }
 };
 
-const errorAlert = (message) => console.log('\x1b[31m', message, '\x1b[0m');
+const alert = (color, message) => {
+  const COLORS = {
+    red: '\x1b[31m', 
+    green: '\x1b[32m'
+  }
+  console.log(COLORS[color], message, '\x1b[0m');
+};
 
 const isNumber = (value) =>
   Number(value).toString() !== value ? `'${value}'` : value;
@@ -21,10 +27,10 @@ const checkInput = (line) => {
   const commas = (line.match(/,/g) || []).length;
   const colons = (line.match(/:/g) || []).length;
   if (colons - commas !== 1) {
-    errorAlert('Bad input');
+    alert(red, 'Bad input');
     return false;
   } else if (line.match(/['"]/g)) {
-    errorAlert('Please enter without quotes');
+    alert(red, 'Please enter without quotes');
     return false;
   }
   return true;
@@ -44,7 +50,7 @@ const addQuotes = (line) => {
 module.exports = {
   deserialize,
   removeFromArray,
-  errorAlert,
+  alert,
   checkInput,
   addQuotes,
 };

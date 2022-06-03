@@ -4,7 +4,7 @@ const fs = require('fs');
 const {
   deserialize,
   removeFromArray,
-  errorAlert,
+  alert,
   checkInput,
   addQuotes,
 } = require('./tools.js');
@@ -49,10 +49,10 @@ const methods = {
     const data = deserialize(inputNormalized);
     const vertex = new Vertex(graph.graphName, data);
     if (data.hasOwnProperty(graph.keyField)) {
-      console.dir(data);
+      alert('green', 'Vertex added to the graph successfully')
       const key = data[graph.keyField];
       if (!graph.vertices.has(key)) graph.vertices.set(key, vertex);
-    } else errorAlert('Vertex must contain key field');
+    } else alert('red', 'Vertex must contain key field');
     return vertex;
   },
 
@@ -100,7 +100,7 @@ const methods = {
   },
 
   showGraph() {
-    if (!graph.vertices.size) errorAlert('There is no vertices in graph');
+    if (!graph.vertices.size) alert('red', 'There is no vertices in graph');
     else console.dir(graph.vertices);
   },
 
@@ -127,7 +127,7 @@ const methods = {
       const [vertex] = fileParsed.values();
       graph = new Graph(vertex.graphName, keyField);
       graph.vertices = vertices;
-    } else errorAlert('This file does not exist');
+    } else alert('red', 'This file does not exist');
   },
 
   deleteVertex(element) {
@@ -159,7 +159,7 @@ const methods = {
     const keyField = graph.keyField;
 
     if (graph.vertices.has(modificator[keyField]))
-      return errorAlert('Vertex with this key field is already exists');
+      return alert('red', 'Vertex with this key field is already exists');
 
     for (const [key, value] of Object.entries(modificator)) {
       if (vertex.data.hasOwnProperty(key)) {
