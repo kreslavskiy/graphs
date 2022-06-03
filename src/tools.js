@@ -2,6 +2,15 @@
 
 const vm = require('vm');
 
+const COLORS = {
+  red: '\x1b[31m', 
+  green: '\x1b[32m'
+};
+
+const alert = (color, message) => {
+  console.log(COLORS[color], message, '\x1b[0m');
+};
+
 const deserialize = (src) =>
   vm.createScript('({' + src + '})').runInThisContext();
 
@@ -10,14 +19,6 @@ const removeFromArray = (array, value) => {
     const index = array.indexOf(value);
     array.splice(index, 1);
   }
-};
-
-const alert = (color, message) => {
-  const COLORS = {
-    red: '\x1b[31m', 
-    green: '\x1b[32m'
-  }
-  console.log(COLORS[color], message, '\x1b[0m');
 };
 
 const isNumber = (value) =>
