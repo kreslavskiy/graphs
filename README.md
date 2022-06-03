@@ -7,5 +7,5 @@ git clone https://github.com/kreslavskiy/graphs
 ```
 2. Run the program:
 ```bash
-node commands.js
+node src/commands.js
 ```
