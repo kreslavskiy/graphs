@@ -124,7 +124,7 @@ const methods = {
       const content = fs.readFileSync(file, 'utf-8');
       const data = Object.entries(JSON.parse(content));
       const vertices = new Map(data);
-      const [vertex] = fileParsed.values();
+      const [vertex] = vertices.values();
       graph = new Graph(vertex.graphName, keyField);
       graph.vertices = vertices;
     } else alert('red', 'This file does not exist');
@@ -162,7 +162,7 @@ const methods = {
       return alert('red', 'Vertex with this key field is already exists');
 
     for (const [key, value] of Object.entries(modificator)) {
-      if (vertex.data.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(vertex.data, key)) {
         if (vertex.data[key] !== modificator[key])
           vertex.data[key] = modificator[key];
       } else vertex.data[key] = value;
