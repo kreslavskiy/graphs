@@ -21,8 +21,11 @@ const removeFromArray = (array, value) => {
   }
 };
 
-const isNumber = (value) =>
-  Number(value).toString() !== value ? `'${value}'` : value;
+const specifyType = (value) => {
+  const reg = new RegExp('^[0-9]+$');
+  if (reg.test(value)) return Number(value);
+  return value;
+};
 
 const checkInput = (line) => {
   const commas = (line.match(/,/g) || []).length;
@@ -42,7 +45,7 @@ const addQuotes = (line) => {
   const entries = line.replaceAll(' ', '').split(',');
   for (const entry of entries) {
     const data = entry.split(':');
-    data[1] = isNumber(data[1]);
+    data[1] = specifyType(data[1]);
     result.push(data.join(':'));
   }
   return result.join(',');
