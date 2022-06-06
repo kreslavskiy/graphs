@@ -9,14 +9,6 @@ const rl = readline.createInterface({
   prompt: '> ',
 });
 
-rl.on('line', async (line) => {
-  line = line.trim();
-  const command = commands[line];
-  if (command) await command();
-  else console.log('\x1b[31m', 'Unknown command', '\x1b[0m');
-  rl.prompt();
-}).on('close', () => process.exit(0));
-
 rl.prompt();
 
 const question = (str) => new Promise((answer) => rl.question(str, answer));
@@ -54,7 +46,7 @@ const commands = {
     const links = await question('Enter links: ');
     const selected = graph.methods.select(query);
     const linked = graph.methods.linked(links);
-    if (selected != [] && linked != []) {
+    if (selected !== [] && linked !== []) {
       const output = selected.filter((value) => linked.includes(value));
       console.dir(output);
     } else if (selected === [] && linked !== []) {
@@ -106,3 +98,11 @@ const commands = {
     console.clear();
   },
 };
+
+rl.on('line', async (line) => {
+  line = line.trim();
+  const command = commands[line];
+  if (command) await command();
+  else console.log('\x1b[31m', 'Unknown command', '\x1b[0m');
+  rl.prompt();
+}).on('close', () => process.exit(0));
