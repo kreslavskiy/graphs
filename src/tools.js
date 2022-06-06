@@ -24,7 +24,7 @@ const removeFromArray = (array, value) => {
 const specifyType = (value) => {
   const reg = new RegExp('^[0-9]+$');
   if (reg.test(value)) return Number(value);
-  return value;
+  return '\'' + value + '\'';
 };
 
 const checkInput = (line) => {
