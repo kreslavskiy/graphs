@@ -9,6 +9,16 @@ const {
   addQuotes,
 } = require('./tools.js');
 
+class Graph {
+  constructor(graphName, keyField) {
+    this.graphName = graphName;
+    this.keyField = keyField;
+    this.vertices = new Map();
+  }
+}
+
+let graph = new Graph();
+
 class Vertex {
   constructor(graphName, data) {
     this.graphName = graphName;
@@ -28,16 +38,6 @@ class Vertex {
   }
 }
 
-class Graph {
-  constructor(graphName, keyField) {
-    this.graphName = graphName;
-    this.keyField = keyField;
-    this.vertices = new Map();
-  }
-}
-
-let graph = new Graph();
-
 const methods = {
   createNewGraph(graphName, keyField) {
     graph = new Graph(graphName, keyField);
@@ -48,8 +48,8 @@ const methods = {
     const inputNormalized = addQuotes(input);
     const data = deserialize(inputNormalized);
     const vertex = new Vertex(graph.graphName, data);
-    if (data.hasOwnProperty(graph.keyField)) {
-      alert('green', 'Vertex added to the graph successfully')
+    if (Object.prototype.hasOwnProperty.call(data, graph.keyField)) {
+      alert('green', 'Vertex added to the graph successfully');
       const key = data[graph.keyField];
       if (!graph.vertices.has(key)) graph.vertices.set(key, vertex);
     } else alert('red', 'Vertex must contain key field');
