@@ -1,7 +1,7 @@
 'use strict';
 
 const readline = require('readline');
-const graph = require('./graph.js');
+const { methods } = require('./graph.js');
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -21,31 +21,31 @@ const commands = {
   async new() {
     const name = await question('Enter graph name: ');
     const field = await question('Enter key field: ');
-    graph.methods.createNewGraph(name, field);
+    methods.createNewGraph(name, field);
   },
 
   async add() {
     const input = await question('Enter data: ');
-    graph.methods.add(input);
+    methods.add(input);
   },
 
   async dlink() {
     const linkFrom = await question('From: ');
     const linkTo = await question('To: ');
-    graph.methods.link(linkFrom, linkTo);
+    methods.link(linkFrom, linkTo);
   },
 
   async link() {
     const linkFrom = await question('From: ');
     const linkTo = await question('To: ');
-    graph.methods.link(linkFrom, linkTo, true);
+    methods.link(linkFrom, linkTo, true);
   },
 
   async select() {
     const query = await question('Enter data: ');
     const links = await question('Enter links: ');
-    const selected = graph.methods.select(query);
-    const linked = graph.methods.linked(links);
+    const selected = methods.select(query);
+    const linked = methods.linked(links);
     if (selected !== [] && linked !== []) {
       const output = selected.filter((value) => linked.includes(value));
       console.dir(output);
@@ -59,38 +59,38 @@ const commands = {
   async modify() {
     const vertex = await question('Vertex you want to modify: ');
     const data = await question('Data you want to modify: ');
-    graph.methods.modifyVertex(vertex, data);
+    methods.modifyVertex(vertex, data);
   },
 
   async delete() {
     const vertexToDelete = await question('Enter vertex you want to delete: ');
-    graph.methods.deleteVertex(vertexToDelete);
+    methods.deleteVertex(vertexToDelete);
   },
 
   async unlink() {
     const deleteFrom = await question('Vertex you want to delete links from: ');
     const deleted = await question('Links you want to delete: ');
-    graph.methods.deleteLinks(deleteFrom, deleted);
+    methods.deleteLinks(deleteFrom, deleted);
   },
 
   async save() {
     const name = await question('Enter file name: ');
-    graph.methods.save(name);
+    methods.save(name);
   },
 
   async import() {
     const fileName = await question('Enter file name: ');
     const field = await question('Enter key field: ');
-    graph.methods.getGraphFromFile(fileName, field);
+    methods.getGraphFromFile(fileName, field);
   },
 
   async clear() {
     const graphName = await question('Enter name of graph you want to clear: ');
-    graph.methods.deleteGraph(graphName);
+    methods.deleteGraph(graphName);
   },
 
   show() {
-    graph.methods.showGraph();
+    methods.showGraph();
   },
 
   exit() {
