@@ -27,13 +27,13 @@ class Vertex {
     this.links = new Array();
   }
 
-  link(...args) {
+  link(type, ...args) {
     const distinct = new Set(args);
     const { links } = this;
     const keyField = graph.keyField;
     for (const item of distinct) {
       const key = item.data[keyField];
-      links.push(key);
+      links.push({ key, type });
     }
     return this;
   }
@@ -57,7 +57,7 @@ const methods = {
     return vertex;
   },
 
-  link(source, destination, directed = false) {
+  link(source, destination, type, directed = false) {
     const sources = source.trim().replaceAll(',', '').split(' ');
     const destinations = destination.trim().replaceAll(',', '').split(' ');
     const vertices = graph.vertices;
@@ -66,8 +66,9 @@ const methods = {
       for (const link of destinations) {
         const target = vertices.get(link);
         if (from && target && !from.links.includes(link)) {
-          from.link(target);
-          if (directed && !target.links.includes(vertex)) target.link(from);
+          from.link(type, target);
+          if (directed && !target.links.includes(vertex))
+            target.link(type, from);
         }
       }
     }

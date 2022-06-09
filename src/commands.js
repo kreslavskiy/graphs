@@ -33,13 +33,15 @@ const commands = {
   async dlink() {
     const linkFrom = await question('From: ');
     const linkTo = await question('To: ');
-    methods.link(linkFrom, linkTo);
+    const type = await question('Enter type of link: ');
+    methods.link(linkFrom, linkTo, type);
   },
 
   async link() {
     const linkFrom = await question('From: ');
     const linkTo = await question('To: ');
-    methods.link(linkFrom, linkTo, true);
+    const type = await question('Enter type of link: ');
+    methods.link(linkFrom, linkTo, type, true);
   },
 
   async select() {
