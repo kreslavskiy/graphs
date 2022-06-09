@@ -91,14 +91,14 @@ const methods = {
   },
 
   linked(links) {
-    const result = new Array();
+    const result = new Set();
     links = links.replaceAll(' ', '').split(',');
     for (const vertex of graph.vertices.values()) {
       for (const link of links) {
-        if (vertex.links.includes(link)) result.push(vertex);
+        if (vertex.links.includes(link)) result.add(vertex);
       }
     }
-    return result;
+    return Array.from(result);
   },
 
   showGraph() {
