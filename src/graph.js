@@ -73,15 +73,17 @@ const methods = {
   },
 
   select(query) {
-    if (!checkInput(query)) return;
-    const normalized = addQuotes(query, checkInput(query));
-    const input = deserialize(normalized);
     const result = new Array();
-    for (const vertex of graph.vertices.values()) {
-      const { data } = vertex;
-      if (data) {
-        for (const field in input) {
-          if (data[field] === input[field]) result.push(vertex);
+    if (query) {
+      if (!checkInput(query)) return;
+      const normalized = addQuotes(query);
+      const input = deserialize(normalized);
+      for (const vertex of graph.vertices.values()) {
+        const { data } = vertex;
+        if (data) {
+          for (const field in input) {
+            if (data[field] === input[field]) result.push(vertex);
+          }
         }
       }
     }
@@ -90,7 +92,7 @@ const methods = {
 
   linked(links) {
     const result = new Array();
-    links = links.trim().replaceAll(',', '').split(' ');
+    links = links.replaceAll(' ', '').split(',');
     for (const vertex of graph.vertices.values()) {
       for (const link of links) {
         if (vertex.links.includes(link)) result.push(vertex);

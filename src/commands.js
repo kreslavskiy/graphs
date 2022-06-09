@@ -46,14 +46,10 @@ const commands = {
     const links = await question('Enter links: ');
     const selected = methods.select(query);
     const linked = methods.linked(links);
-    if (selected !== [] && linked !== []) {
-      const output = selected.filter((value) => linked.includes(value));
-      console.dir(output);
-    } else if (selected === [] && linked !== []) {
-      console.dir(linked);
-    } else if (selected !== [] && linked === []) {
-      console.dir(selected);
-    }
+    if (selected.length && linked.length) {
+      const res = selected.filter((value) => linked.includes(value));
+      console.dir(res);
+    } else console.dir([...selected, ...linked]);
   },
 
   async modify() {
