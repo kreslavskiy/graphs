@@ -20,8 +20,9 @@ class Graph {
 let graph = new Graph();
 
 class Vertex {
-  constructor(graphName, data) {
+  constructor(graphName, data, type) {
     this.graphName = graphName;
+    this.type = type;
     this.data = data;
     this.links = new Array();
   }
@@ -43,11 +44,11 @@ const methods = {
     graph = new Graph(graphName, keyField);
   },
 
-  add(input) {
+  add(input, vertexType) {
     if (!checkInput(input)) return;
     const inputNormalized = addQuotes(input);
     const data = deserialize(inputNormalized);
-    const vertex = new Vertex(graph.graphName, data);
+    const vertex = new Vertex(graph.graphName, data, vertexType);
     if (Object.prototype.hasOwnProperty.call(data, graph.keyField)) {
       alert('green', 'Vertex added to the graph successfully');
       const key = data[graph.keyField];

@@ -25,8 +25,9 @@ const commands = {
   },
 
   async add() {
+    const type = await question('Enter type of vertex: ');
     const input = await question('Enter data: ');
-    methods.add(input);
+    methods.add(input, type);
   },
 
   async dlink() {
