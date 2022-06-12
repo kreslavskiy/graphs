@@ -69,7 +69,7 @@ const methods = {
           from.link(type, target);
           if (directed && !target.links.includes(vertex))
             target.link(type, from);
-        }
+        } else alert('red', 'This vertex does not exist');
       }
     }
   },
@@ -104,8 +104,12 @@ const methods = {
   },
 
   showGraph() {
-    if (!graph.vertices.size) alert('red', 'There is no vertices in graph');
-    else console.dir(graph.vertices);
+    if (!graph.vertices.size)
+      return alert('red', 'There is no vertices in graph');
+    const vertices = graph.vertices;
+    for (const vertex of vertices.values()) {
+      console.dir(vertex);
+    }
   },
 
   async save(fileName) {
