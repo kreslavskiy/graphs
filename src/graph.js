@@ -57,7 +57,7 @@ const methods = {
     return vertex;
   },
 
-  link(source, destination, type, directed = false) {
+  link(source, destination, name, directed = false) {
     const sources = source.trim().replaceAll(',', '').split(' ');
     const destinations = destination.trim().replaceAll(',', '').split(' ');
     const vertices = graph.vertices;
@@ -66,9 +66,9 @@ const methods = {
       for (const link of destinations) {
         const target = vertices.get(link);
         if (from && target && !from.links.includes(link)) {
-          from.link(type, target);
+          from.link(name, target);
           if (directed && !target.links.includes(vertex))
-            target.link(type, from);
+            target.link(name, from);
         } else alert('red', 'One of these vertex does not exist');
       }
     }
