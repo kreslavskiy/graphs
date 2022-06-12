@@ -4,6 +4,7 @@ const vm = require('vm');
 
 const COLORS = {
   red: '\x1b[31m',
+  yell: '\x1b[33m',
   green: '\x1b[32m',
 };
 
