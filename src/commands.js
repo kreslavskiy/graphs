@@ -34,7 +34,7 @@ const commands = {
   async dlink() {
     const linkFrom = await question('From: ');
     const linkTo = await question('To: ');
-    const type = await question('Enter type of link: ');
+    const type = await question('Enter link name: ');
     methods.link(linkFrom, linkTo, type);
   },
 
@@ -50,6 +50,7 @@ const commands = {
     const links = await question('Enter links: ');
     const selected = methods.select(query);
     const linked = methods.linked(links);
+    if (!selected.concat(linked).length) return alert('yell', 'Nothing found');
     if (selected.length && linked.length) {
       const res = selected.filter((value) => linked.includes(value));
       console.dir(res);
