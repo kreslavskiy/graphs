@@ -69,7 +69,7 @@ const methods = {
           from.link(type, target);
           if (directed && !target.links.includes(vertex))
             target.link(type, from);
-        } else alert('red', 'This vertex does not exist');
+        } else alert('red', 'One of these vertex does not exist');
       }
     }
   },
@@ -92,12 +92,21 @@ const methods = {
     return result;
   },
 
+  getAllLinks(vertex) {
+    const links = [];
+    for (const link of vertex.links) {
+      links.push(link.key);
+    }
+    return links;
+  },
+
   linked(links) {
     const result = new Set();
     links = links.replaceAll(' ', '').split(',');
     for (const vertex of graph.vertices.values()) {
+      const vertexLinks = this.getAllLinks(vertex);
       for (const link of links) {
-        if (vertex.links.includes(link)) result.add(vertex);
+        if (vertexLinks.includes(link)) result.add(vertex);
       }
     }
     return Array.from(result);
