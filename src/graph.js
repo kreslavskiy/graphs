@@ -98,7 +98,7 @@ const getAllLinks = (vertex) => {
   return links;
 };
 
-const linked = (links) => {
+const getLinked = (links) => {
   const result = new Set();
   links = links.replaceAll(' ', '').split(',');
   for (const vertex of graph.vertices.values()) {
@@ -198,4 +198,19 @@ const renameKey = (oldName, newName, data) => {
   }
 };
 
-module.exports = { methods };
+module.exports = {
+  createNewGraph,
+  add,
+  link,
+  select,
+  getAllLinks,
+  getLinked,
+  showGraph,
+  save,
+  getGraphFromFile,
+  deleteVertex,
+  deleteGraph,
+  deleteLinks,
+  modifyVertex,
+  renameKey,
+};
