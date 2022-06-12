@@ -2,6 +2,7 @@
 
 const readline = require('readline');
 const { methods } = require('./graph.js');
+const { alert } = require('./tools.js');
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -99,9 +100,13 @@ const commands = {
 };
 
 rl.on('line', async (line) => {
-  line = line.trim();
-  const command = commands[line];
-  if (command) await command();
-  else console.log('\x1b[31m', 'Unknown command', '\x1b[0m');
-  rl.prompt();
+  try {
+    line = line.trim();
+    const command = commands[line];
+    if (command) await command();
+    else alert('red', 'Unknown command');
+    rl.prompt();
+  } catch (err) {
+    alert('red', 'Uncought error');
+  }
 }).on('close', () => process.exit(0));
