@@ -8,12 +8,13 @@ const {
   select,
   getLinked,
   showGraph,
-  save,
+  saveToFile,
   getGraphFromFile,
   deleteVertex,
   deleteGraph,
   deleteLinks,
   modifyVertex,
+  isSaved,
 } = require('./graph.js');
 const { alert } = require('./tools.js');
 
@@ -63,7 +64,7 @@ const commands = {
     const links = await question('Enter links: ');
     const selected = select(query);
     const link = getLinked(links);
-    if (!selected.concat(link).length) return alert('yell', 'Nothing found');
+    if (![...selected, ...link].length) return alert('yell', 'Nothing found');
     if (selected.length && link.length) {
       const res = selected.filter((value) => link.includes(value));
       console.dir(res);
@@ -89,7 +90,7 @@ const commands = {
 
   async save() {
     const name = await question('Enter file name: ');
-    save(name);
+    saveToFile(name);
   },
 
   async import() {
@@ -107,9 +108,14 @@ const commands = {
     showGraph();
   },
 
-  exit() {
-    rl.close();
-    console.clear();
+  async exit() {
+    if (!isSaved()) {
+      const toSave = await question(
+        'Seems like you have unsaved changes. Wanna save?(y/n) '
+      );
+      if (toSave === 'y') await commands.save();
+      else rl.close();
+    }
   },
 };
 

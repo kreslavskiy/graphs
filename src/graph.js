@@ -10,9 +10,10 @@ const {
 } = require('./tools.js');
 
 class Graph {
-  constructor(graphName, keyField) {
+  constructor(graphName, keyField, directory) {
     this.graphName = graphName;
     this.keyField = keyField;
+    this.directory = directory;
     this.vertices = new Map();
   }
 }
@@ -40,7 +41,7 @@ class Vertex {
 }
 
 const createNewGraph = (graphName, keyField) => {
-  graph = new Graph(graphName, keyField);
+  graph = new Graph(graphName, keyField, null);
 };
 
 const add = (input, vertexType) => {
@@ -119,7 +120,7 @@ const showGraph = () => {
   }
 };
 
-const save = async (fileName) => {
+const saveToFile = async (fileName) => {
   const file = `${fileName}.json`;
   const vertices = Object.fromEntries(graph.vertices);
   let data = JSON.stringify(vertices);
@@ -198,6 +199,15 @@ const renameKey = (oldName, newName, data) => {
   }
 };
 
+const isSaved = () => {
+  if (!graph.directory) return false;
+  const vertices = Object.fromEntries(graph.vertices);
+  const verticesData = JSON.stringify(vertices);
+  const fileData = fs.readFileSync(graph.directory, 'utf-8');
+  if (fileData !== verticesData) return false;
+  return true;
+};
+
 module.exports = {
   createNewGraph,
   add,
@@ -206,11 +216,12 @@ module.exports = {
   getAllLinks,
   getLinked,
   showGraph,
-  save,
+  saveToFile,
   getGraphFromFile,
   deleteVertex,
   deleteGraph,
   deleteLinks,
   modifyVertex,
   renameKey,
+  isSaved
 };
