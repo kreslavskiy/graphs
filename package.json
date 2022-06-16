@@ -1,0 +1,25 @@
+{
+  "name": "graphs",
+  "version": "1.0.0",
+  "description": "This program is created to work with graph data structures",
+  "main": "commands.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kreslavskiy/graphs.git"
+  },
+  "keywords": [
+    "graph"
+  ],
+  "author": "Mykhailo Kreslavskyi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kreslavskiy/graphs/issues"
+  },
+  "homepage": "https://github.com/kreslavskiy/graphs#readme"
+}
