@@ -1,3 +1,5 @@
+Commands:
+
 new - to create new graph
 add - to add new node to graph
 dlink - to create directed link between nodes

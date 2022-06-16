@@ -19,6 +19,8 @@ const {
   isSaved,
 } = require('./graph.js');
 
+console.log('Type "help" to see all commands!');
+
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -32,7 +34,7 @@ const question = (str) => new Promise((answer) => rl.question(str, answer));
 const commands = {
   help() {
     const message = fs.readFileSync('src/documentation.txt', 'utf-8');
-    console.log('Commands:\n\n' + message);
+    console.log(message);
   },
 
   async new() {
