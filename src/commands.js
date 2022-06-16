@@ -1,6 +1,8 @@
 'use strict';
 
 const readline = require('readline');
+const fs = require('fs');
+const { alert } = require('./tools.js');
 const {
   createNewGraph,
   add,
@@ -16,7 +18,6 @@ const {
   modifyVertex,
   isSaved,
 } = require('./graph.js');
-const { alert } = require('./tools.js');
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -30,7 +31,8 @@ const question = (str) => new Promise((answer) => rl.question(str, answer));
 
 const commands = {
   help() {
-    console.log('Commands:', Object.keys(commands).join(', '));
+    const message = fs.readFileSync('src/documentation.txt', 'utf-8');
+    console.log('Commands:\n\n' + message);
   },
 
   async new() {

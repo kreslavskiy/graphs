@@ -1,0 +1,13 @@
+new - to create new graph
+add - to add new node to graph
+dlink - to create directed link between nodes
+link - to create indirected link between nodes (you can link multiple nodes at once)
+select - to select nodes by data or by links
+modify - to change vertex data
+delete - to delete node
+unlink - to delete link between two nodes
+save - to save graph to the file
+import - to upload existing graph from file 
+clear - to delete all nodes from graph
+show - to display all nodes
+exit - to quit program
