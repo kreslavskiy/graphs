@@ -42,6 +42,7 @@ class Vertex {
 
 const createNewGraph = (graphName, keyField) => {
   graph = new Graph(graphName, keyField, null);
+  return graph;
 };
 
 const add = (input, vertexType) => {
@@ -103,7 +104,7 @@ const getLinked = (links) => {
   const result = new Set();
   links = links.replaceAll(' ', '').split(',');
   for (const vertex of graph.vertices.values()) {
-    const vertexLinks = this.getAllLinks(vertex);
+    const vertexLinks = getAllLinks(vertex);
     for (const link of links) {
       if (vertexLinks.includes(link)) result.add(vertex);
     }
@@ -143,6 +144,16 @@ const getGraphFromFile = (fileName, keyField) => {
     const [vertex] = vertices.values();
     graph = new Graph(vertex.graphName, keyField);
     graph.vertices = vertices;
+  } else alert('red', 'This file does not exist');
+};
+
+const mergeTwoGraphs = (fileName) => {
+  const file = `${fileName}.json`;
+  if (fs.existsSync(file)) {
+    const content = fs.readFileSync(file, 'utf-8');
+    const data = Object.entries(JSON.parse(content));
+    const vertices = new Map(data);
+    graph.vertices = new Map([...graph.vertices, ...vertices]);
   } else alert('red', 'This file does not exist');
 };
 
@@ -218,10 +229,11 @@ module.exports = {
   showGraph,
   saveToFile,
   getGraphFromFile,
+  mergeTwoGraphs,
   deleteVertex,
   deleteGraph,
   deleteLinks,
   modifyVertex,
   renameKey,
-  isSaved
+  isSaved,
 };

@@ -12,6 +12,7 @@ const {
   showGraph,
   saveToFile,
   getGraphFromFile,
+  mergeTwoGraphs,
   deleteVertex,
   deleteGraph,
   deleteLinks,
@@ -103,6 +104,11 @@ const commands = {
     getGraphFromFile(fileName, field);
   },
 
+  async join() {
+    const fileName = await question('Enter file name: ');
+    mergeTwoGraphs(fileName);
+  },
+
   async clear() {
     const graphName = await question('Enter name of graph you want to clear: ');
     deleteGraph(graphName);
@@ -131,6 +137,7 @@ rl.on('line', async (line) => {
     else alert('red', 'Unknown command');
     rl.prompt();
   } catch (err) {
-    alert('red', 'Uncought error');
+    console.log(err.message);
+    //alert('red', 'Uncought error');
   }
 }).on('close', () => process.exit(0));
