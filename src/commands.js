@@ -11,7 +11,7 @@ const {
   getLinked,
   showGraph,
   saveToFile,
-  getGraphFromFile,
+  setGraph,
   mergeTwoGraphs,
   deleteVertex,
   deleteGraph,
@@ -101,7 +101,7 @@ const commands = {
   async import() {
     const fileName = await question('Enter file name: ');
     const field = await question('Enter key field: ');
-    getGraphFromFile(fileName, field);
+    setGraph(fileName, field);
   },
 
   async join() {

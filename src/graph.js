@@ -135,26 +135,26 @@ const saveToFile = async (fileName) => {
   await fs.promises.appendFile(file, data);
 };
 
-const getGraphFromFile = (fileName, keyField) => {
+const getVerticesFromFile = (fileName) => {
   const file = `${fileName}.json`;
   if (fs.existsSync(file)) {
     const content = fs.readFileSync(file, 'utf-8');
     const data = Object.entries(JSON.parse(content));
     const vertices = new Map(data);
-    const [vertex] = vertices.values();
-    graph = new Graph(vertex.graphName, keyField);
-    graph.vertices = vertices;
-  } else alert('red', 'This file does not exist');
+    return vertices;
+  } else return alert('red', 'This file does not exist');
+};
+
+const setGraph = (fileName, keyField) => {
+  const vertices = getVerticesFromFile(fileName);
+  const [vertex] = vertices.values();
+  graph = new Graph(vertex.graphName, keyField);
+  graph.vertices = vertices;
 };
 
 const mergeTwoGraphs = (fileName) => {
-  const file = `${fileName}.json`;
-  if (fs.existsSync(file)) {
-    const content = fs.readFileSync(file, 'utf-8');
-    const data = Object.entries(JSON.parse(content));
-    const vertices = new Map(data);
-    graph.vertices = new Map([...graph.vertices, ...vertices]);
-  } else alert('red', 'This file does not exist');
+  const vertices = getVerticesFromFile(fileName);
+  graph.vertices = new Map([...graph.vertices, ...vertices]);
 };
 
 const deleteVertex = (element) => {
@@ -228,7 +228,7 @@ module.exports = {
   getLinked,
   showGraph,
   saveToFile,
-  getGraphFromFile,
+  setGraph,
   mergeTwoGraphs,
   deleteVertex,
   deleteGraph,
