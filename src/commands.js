@@ -137,7 +137,6 @@ rl.on('line', async (line) => {
     else alert('red', 'Unknown command');
     rl.prompt();
   } catch (err) {
-    console.log(err.message);
-    //alert('red', 'Uncought error');
+    alert('red', 'Uncought error');
   }
 }).on('close', () => process.exit(0));

@@ -27,17 +27,6 @@ class Vertex {
     this.data = data;
     this.links = new Array();
   }
-
-  link(type, ...args) {
-    const distinct = new Set(args);
-    const { links } = this;
-    const keyField = graph.keyField;
-    for (const item of distinct) {
-      const key = item.data[keyField];
-      links.push({ key, type });
-    }
-    return this;
-  }
 }
 
 const createNewGraph = (graphName, keyField) => {
@@ -49,7 +38,7 @@ const add = (input, vertexType) => {
   if (!checkInput(input)) return;
   const inputNormalized = addQuotes(input);
   const data = deserialize(inputNormalized);
-  const vertex = new Vertex(graph.graphName,  vertexType, data);
+  const vertex = new Vertex(graph.graphName, vertexType, data);
   if (Object.prototype.hasOwnProperty.call(data, graph.keyField)) {
     const key = data[graph.keyField];
     if (!graph.vertices.has(key)) {
@@ -58,6 +47,13 @@ const add = (input, vertexType) => {
     }
   } else alert('red', 'Vertex must contain key field');
   return vertex;
+};
+
+const createRelation = (vertex, destination, linkName) => {
+  const keyField = graph.keyField;
+  const key = destination.data[keyField];
+  console.log(keyField);
+  vertex.links.push({ key, linkName });
 };
 
 const link = (source, destination, name, directed = false) => {
@@ -69,8 +65,9 @@ const link = (source, destination, name, directed = false) => {
     for (const link of destinations) {
       const target = vertices.get(link);
       if (from && target && !from.links.includes(link)) {
-        from.link(name, target);
-        if (directed && !target.links.includes(vertex)) target.link(name, from);
+        createRelation(from, target, name);
+        if (directed && !target.links.includes(vertex))
+          createRelation(target, from, name);
       } else alert('red', 'One of these vertex does not exist');
     }
   }
@@ -148,15 +145,14 @@ const getVerticesFromFile = (fileName) => {
     const content = fs.readFileSync(file, 'utf-8');
     const parsed = Object.entries(JSON.parse(content));
     const data = new Map(parsed);
-    console.log(data);
     return data;
   } else return alert('red', 'This file does not exist');
 };
 
 const setGraph = (fileName, keyField) => {
   const vertices = getVerticesFromFile(fileName);
-  //const [vertex] = vertices.values();
-  graph = new Graph('vertex.graphName', keyField);
+  const [vertex] = vertices.values();
+  graph = new Graph(vertex.graphName, keyField);
   graph.vertices = vertices;
 };
 
