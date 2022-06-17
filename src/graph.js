@@ -52,7 +52,6 @@ const add = (input, vertexType) => {
 const createRelation = (vertex, destination, linkName) => {
   const keyField = graph.keyField;
   const key = destination.data[keyField];
-  console.log(keyField);
   vertex.links.push({ key, linkName });
 };
 
@@ -119,7 +118,6 @@ const showGraph = () => {
   for (const vertex of vertices.values()) {
     const key = vertex.data[graph.keyField];
     const loh = new Object(vertex);
-    // eslint-disable-next-line no-unused-vars
     const { graphName, ...output } = loh;
     console.log(key, '=>', output);
   }
