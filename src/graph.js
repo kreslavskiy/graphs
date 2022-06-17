@@ -21,7 +21,7 @@ class Graph {
 let graph = new Graph();
 
 class Vertex {
-  constructor(graphName, data, type) {
+  constructor(graphName, type, data) {
     this.graphName = graphName;
     this.type = type;
     this.data = data;
@@ -49,11 +49,13 @@ const add = (input, vertexType) => {
   if (!checkInput(input)) return;
   const inputNormalized = addQuotes(input);
   const data = deserialize(inputNormalized);
-  const vertex = new Vertex(graph.graphName, data, vertexType);
+  const vertex = new Vertex(graph.graphName,  vertexType, data);
   if (Object.prototype.hasOwnProperty.call(data, graph.keyField)) {
-    alert('green', 'Vertex added to the graph successfully');
     const key = data[graph.keyField];
-    if (!graph.vertices.has(key)) graph.vertices.set(key, vertex);
+    if (!graph.vertices.has(key)) {
+      graph.vertices.set(key, vertex);
+      alert('green', 'Vertex added to the graph successfully');
+    }
   } else alert('red', 'Vertex must contain key field');
   return vertex;
 };
@@ -113,11 +115,16 @@ const getLinked = (links) => {
 };
 
 const showGraph = () => {
+  console.log('Graph name:', graph.graphName);
   if (!graph.vertices.size)
     return alert('red', 'There is no vertices in graph');
   const vertices = graph.vertices;
   for (const vertex of vertices.values()) {
-    console.dir(vertex);
+    const key = vertex.data[graph.keyField];
+    const loh = new Object(vertex);
+    // eslint-disable-next-line no-unused-vars
+    const { graphName, ...output } = loh;
+    console.log(key, '=>', output);
   }
 };
 
@@ -139,16 +146,17 @@ const getVerticesFromFile = (fileName) => {
   const file = `${fileName}.json`;
   if (fs.existsSync(file)) {
     const content = fs.readFileSync(file, 'utf-8');
-    const data = Object.entries(JSON.parse(content));
-    const vertices = new Map(data);
-    return vertices;
+    const parsed = Object.entries(JSON.parse(content));
+    const data = new Map(parsed);
+    console.log(data);
+    return data;
   } else return alert('red', 'This file does not exist');
 };
 
 const setGraph = (fileName, keyField) => {
   const vertices = getVerticesFromFile(fileName);
-  const [vertex] = vertices.values();
-  graph = new Graph(vertex.graphName, keyField);
+  //const [vertex] = vertices.values();
+  graph = new Graph('vertex.graphName', keyField);
   graph.vertices = vertices;
 };
 
