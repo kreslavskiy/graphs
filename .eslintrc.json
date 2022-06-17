@@ -9,6 +9,7 @@
       "ecmaVersion": 2020
     },
     "rules": {
+      "no-unused-vars": ["error", { "vars": "none", "args": "after-used", "ignoreRestSiblings": false }],
       "indent": ["error", 2],
       "linebreak-style": ["error", "unix"],
       "quotes": [
