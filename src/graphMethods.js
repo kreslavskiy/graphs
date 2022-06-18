@@ -1,33 +1,18 @@
 'use strict';
 
 const fs = require('fs');
+const { Graph } = require('./classes/Graph');
+const { Vertex } = require('./classes/Vertex');
 const {
   deserialize,
   removeFromArray,
   alert,
   checkInput,
   addQuotes,
+  normalizeInput
 } = require('./tools.js');
 
-class Graph {
-  constructor(graphName, keyField, directory) {
-    this.graphName = graphName;
-    this.keyField = keyField;
-    this.directory = directory;
-    this.vertices = new Map();
-  }
-}
-
 let graph = new Graph();
-
-class Vertex {
-  constructor(graphName, type, data) {
-    this.graphName = graphName;
-    this.type = type;
-    this.data = data;
-    this.links = new Array();
-  }
-}
 
 const createNewGraph = (graphName, keyField) => {
   graph = new Graph(graphName, keyField, null);
@@ -56,8 +41,8 @@ const createRelation = (vertex, destination, linkName) => {
 };
 
 const link = (source, destination, name, directed = false) => {
-  const sources = source.trim().replaceAll(',', '').split(' ');
-  const destinations = destination.trim().replaceAll(',', '').split(' ');
+  const sources = normalizeInput(source);
+  const destinations = normalizeInput(destination);
   const vertices = graph.vertices;
   for (const vertex of sources) {
     const from = vertices.get(vertex);
@@ -174,7 +159,7 @@ const deleteGraph = (name) => {
 };
 
 const deleteLinks = (deleteFrom, deleteWhat) => {
-  const linksToDelete = deleteWhat.trim().replaceAll(',', '').split(' ');
+  const linksToDelete = normalizeInput(deleteWhat);
   const vertex = graph.vertices.get(deleteFrom);
   for (const link of linksToDelete) {
     removeFromArray(vertex.links, link);

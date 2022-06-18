@@ -18,7 +18,7 @@ const {
   deleteLinks,
   modifyVertex,
   isSaved,
-} = require('./graph.js');
+} = require('./graphMethods.js');
 
 console.log('Type "help" to see all commands!');
 
@@ -138,5 +138,6 @@ rl.on('line', async (line) => {
     rl.prompt();
   } catch (err) {
     alert('red', 'Uncought error');
+    process.exit();
   }
 }).on('close', () => process.exit(0));

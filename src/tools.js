@@ -41,6 +41,11 @@ const checkInput = (line) => {
   return true;
 };
 
+const normalizeInput = (line) => {
+  const normalized = line.trim().replaceAll(',', '').split(' ');
+  return normalized;
+};
+
 const addQuotes = (line) => {
   const result = [];
   const entries = line.replaceAll(' ', '').split(',');
@@ -58,4 +63,5 @@ module.exports = {
   alert,
   checkInput,
   addQuotes,
+  normalizeInput
 };
