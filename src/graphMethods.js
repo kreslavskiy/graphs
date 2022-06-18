@@ -34,10 +34,19 @@ const add = (input, vertexType) => {
   return vertex;
 };
 
+const getAllLinks = (vertex) => {
+  const links = new Array();
+  for (const link of vertex.links) {
+    links.push(link.key);
+  }
+  return links;
+};
+
 const createRelation = (vertex, destination, linkName) => {
   const keyField = graph.keyField;
   const key = destination.data[keyField];
-  vertex.links.push({ key, linkName });
+  const links = getAllLinks(vertex);
+  if (!links.includes(key)) vertex.links.push({ key, linkName });
 };
 
 const link = (source, destination, name, directed = false) => {
@@ -73,14 +82,6 @@ const select = (query) => {
     }
   }
   return result;
-};
-
-const getAllLinks = (vertex) => {
-  const links = [];
-  for (const link of vertex.links) {
-    links.push(link.key);
-  }
-  return links;
 };
 
 const getLinked = (links) => {
