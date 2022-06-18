@@ -9,7 +9,7 @@ const {
   alert,
   checkInput,
   addQuotes,
-  normalizeInput
+  normalizeInput,
 } = require('./tools.js');
 
 let graph = new Graph();
@@ -162,7 +162,9 @@ const deleteLinks = (deleteFrom, deleteWhat) => {
   const linksToDelete = normalizeInput(deleteWhat);
   const vertex = graph.vertices.get(deleteFrom);
   for (const link of linksToDelete) {
-    removeFromArray(vertex.links, link);
+    for (const relation of vertex.links) {
+      if (relation['key'] === link) removeFromArray(vertex.links, relation);
+    }
   }
 };
 
