@@ -144,12 +144,16 @@ const mergeTwoGraphs = (fileName) => {
   graph.vertices = new Map([...graph.vertices, ...vertices]);
 };
 
-const deleteVertex = (element) => {
+const deleteVertex = (name) => {
   const vertices = graph.vertices;
-  const deleted = vertices.delete(element);
+  const vertexToDelete = vertices.get(name);
+  const deletedKey = vertexToDelete.data[graph.keyField];
+  const deleted = vertices.delete(name);
   if (deleted) {
     for (const vertex of vertices.values()) {
-      removeFromArray(vertex.links, element);
+      for (const link of vertex.links) {
+        if (link['key'] === deletedKey) removeFromArray(vertex.links, link);
+      }
     }
   }
 };
