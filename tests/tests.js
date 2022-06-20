@@ -9,7 +9,6 @@ const {
   getLinked,
   showGraph,
   saveToFile,
-  getGraphFromFile,
   deleteVertex,
   deleteGraph,
   deleteLinks,
@@ -62,8 +61,14 @@ assert.strictEqual(
   'Function deleteGraph() does not work properly'
 );
 
-
 setGraph('people', 'name');
 add('name: Misha, age: 18', 'person');
+
+deleteVertex('Dima');
+assert.strictEqual(
+  graph.vertices.get('Dima'),
+  undefined,
+  'Function deleteGraph() does not work properly'
+);
 
 showGraph();
