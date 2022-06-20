@@ -59,7 +59,7 @@ const link = (source, destination, name, directed = false) => {
       const target = vertices.get(link);
       if (from && target && !from.links.includes(link)) {
         createRelation(from, target, name);
-        if (directed && !target.links.includes(vertex))
+        if (!directed && !target.links.includes(vertex))
           createRelation(target, from, name);
       } else alert('red', 'One of these vertex does not exist');
     }
