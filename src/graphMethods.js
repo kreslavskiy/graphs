@@ -110,6 +110,7 @@ const showGraph = () => {
 
 const saveToFile = async (fileName) => {
   const file = `${fileName}.json`;
+  graph.directory = file;
   const vertices = Object.fromEntries(graph.vertices);
   let data = JSON.stringify(vertices);
   if (fs.existsSync(file)) {
