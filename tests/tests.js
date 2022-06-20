@@ -36,3 +36,11 @@ assert.strictEqual(
   secondVertexLink.linkName,
   'Function link() does not work properly'
 );
+
+const selected = select('age: 18');
+const selectedData = selected[0].data;
+assert.strictEqual(
+  selectedData.name,
+  'Kirill',
+  'Function link() does not work properly',
+);
