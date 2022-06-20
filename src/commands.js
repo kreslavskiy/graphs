@@ -54,14 +54,14 @@ const commands = {
     const linkFrom = await question('From: ');
     const linkTo = await question('To: ');
     const type = await question('Enter link name: ');
-    link(linkFrom, linkTo, type);
+    link(linkFrom, linkTo, type, true);
   },
 
   async link() {
     const linkFrom = await question('From: ');
     const linkTo = await question('To: ');
     const name = await question('Enter link name: ');
-    link(linkFrom, linkTo, name, true);
+    link(linkFrom, linkTo, name);
   },
 
   async select() {

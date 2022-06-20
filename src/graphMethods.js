@@ -138,6 +138,7 @@ const setGraph = (fileName, keyField) => {
   const [vertex] = vertices.values();
   graph = new Graph(vertex.graphName, keyField);
   graph.vertices = vertices;
+  return graph.vertices;
 };
 
 const mergeTwoGraphs = (fileName) => {
