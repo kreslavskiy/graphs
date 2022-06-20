@@ -28,7 +28,6 @@ const add = (input, vertexType) => {
     const key = data[graph.keyField];
     if (!graph.vertices.has(key)) {
       graph.vertices.set(key, vertex);
-      alert('green', 'Vertex added to the graph successfully');
     }
   } else alert('red', 'Vertex must contain key field');
   return vertex;
