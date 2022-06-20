@@ -15,6 +15,7 @@ const {
   deleteLinks,
   modifyVertex,
   isSaved,
+  setGraph,
 } = require('../src/graphMethods.js');
 
 const graph = createNewGraph('people', 'name');
@@ -44,3 +45,25 @@ assert.strictEqual(
   'Kirill',
   'Function link() does not work properly',
 );
+
+const linked = getLinked('Dima');
+const linkedData = linked[0].data;
+assert.strictEqual(
+  linkedData.name,
+  'Kirill',
+  'Function link() does not work properly',
+);
+
+saveToFile('people');
+deleteGraph('people');
+assert.strictEqual(
+  graph.vertices.size,
+  0,
+  'Function deleteGraph() does not work properly'
+);
+
+
+setGraph('people', 'name');
+add('name: Misha, age: 18', 'person');
+
+showGraph();
