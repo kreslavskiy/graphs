@@ -5,7 +5,6 @@ const { Graph } = require('./classes/Graph');
 const { Vertex } = require('./classes/Vertex');
 const {
   deserialize,
-  removeFromArray,
   alert,
   checkInput,
   addQuotes,
@@ -142,12 +141,6 @@ const deleteGraph = (name) => {
   if (name === graph.graphName) graph.vertices.clear();
 };
 
-const deleteRelation = (vertex, linkToDelete) => {
-  for (const link of vertex.links) {
-    if (link['key'] === linkToDelete) removeFromArray(vertex.links, link);
-  }
-};
-
 const deleteVertex = (name) => {
   const vertices = graph.vertices;
   const vertexToDelete = vertices.get(name);
@@ -155,7 +148,7 @@ const deleteVertex = (name) => {
   const deleted = vertices.delete(name);
   if (deleted) {
     for (const vertex of vertices.values()) {
-      deleteRelation(vertex, deletedKey);
+      vertex.deleteLink(deletedKey);
     }
   }
 };
@@ -164,7 +157,7 @@ const deleteLinks = (deleteFrom, deleteWhat) => {
   const linksToDelete = normalizeInput(deleteWhat);
   const vertex = graph.vertices.get(deleteFrom);
   for (const link of linksToDelete) {
-    deleteRelation(vertex, link);
+    vertex.deleteLink(link);
   }
 };
 

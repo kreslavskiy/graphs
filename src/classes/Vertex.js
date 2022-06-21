@@ -1,5 +1,7 @@
 'use strict';
 
+const { removeFromArray } = require('../tools.js');
+
 class Vertex {
   constructor(graphName, type, data) {
     this.graphName = graphName;
@@ -14,6 +16,12 @@ class Vertex {
       keys.push(link.key);
     }
     return keys;
+  }
+
+  deleteLink(linkToDelete) {
+    for (const link of this.links) {
+      if (link.key === linkToDelete) removeFromArray(this.links, link);
+    }
   }
 }
 
