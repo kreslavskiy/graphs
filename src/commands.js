@@ -124,7 +124,7 @@ const commands = {
         'Seems like you have unsaved changes. Wanna save?(y/n) '
       );
       if (toSave === 'y') await commands.save();
-      else rl.close();
+      rl.close();
     }
   },
 };
