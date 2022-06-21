@@ -33,18 +33,10 @@ const add = (input, vertexType) => {
   return vertex;
 };
 
-const getAllLinks = (vertex) => {
-  const links = new Array();
-  for (const link of vertex.links) {
-    links.push(link.key);
-  }
-  return links;
-};
-
 const createRelation = (vertex, destination, linkName) => {
   const keyField = graph.keyField;
   const key = destination.data[keyField];
-  const links = getAllLinks(vertex);
+  const links = vertex.linksKeys;
   if (!links.includes(key)) vertex.links.push({ key, linkName });
 };
 
@@ -87,7 +79,7 @@ const getLinked = (links) => {
   const result = new Set();
   links = links.replaceAll(' ', '').split(',');
   for (const vertex of graph.vertices.values()) {
-    const vertexLinks = getAllLinks(vertex);
+    const vertexLinks = vertex.linksKeys;
     for (const link of links) {
       if (vertexLinks.includes(link)) result.add(vertex);
     }
@@ -222,7 +214,6 @@ module.exports = {
   add,
   link,
   select,
-  getAllLinks,
   getLinked,
   showGraph,
   saveToFile,
