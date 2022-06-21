@@ -168,18 +168,6 @@ const deleteLinks = (deleteFrom, deleteWhat) => {
   }
 };
 
-const renameKey = (oldName, newName, data) => {
-  graph.vertices.set(newName, data);
-  graph.vertices.delete(oldName);
-  for (const vertex of graph.vertices.values()) {
-    for (const link of vertex.links) {
-      if (link['key'] === oldName) {
-        link['key'] = newName;
-      }
-    }
-  }
-};
-
 const modifyVertex = (link, newData) => {
   if (!checkInput(newData)) return;
   const modificator = deserialize(addQuotes(newData));
@@ -196,7 +184,7 @@ const modifyVertex = (link, newData) => {
     } else vertex.data[key] = value;
   }
   if (link !== vertex.data[keyField]) {
-    renameKey(link, vertex.data[keyField], vertex);
+    graph.renameKey(link, vertex.data[keyField], vertex);
   }
 };
 
@@ -223,6 +211,5 @@ module.exports = {
   deleteGraph,
   deleteLinks,
   modifyVertex,
-  renameKey,
   isSaved,
 };
