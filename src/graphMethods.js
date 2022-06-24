@@ -32,25 +32,19 @@ const add = (input, vertexType) => {
   return vertex;
 };
 
-const createRelation = (vertex, destination, linkName) => {
-  const keyField = graph.keyField;
-  const key = destination.data[keyField];
-  const links = vertex.linksKeys;
-  if (!links.includes(key)) vertex.links.push({ key, linkName });
-};
-
 const link = (source, destination, name, directed = false) => {
   const sources = normalizeInput(source);
   const destinations = normalizeInput(destination);
   const vertices = graph.vertices;
+  const key = graph.keyField;
   for (const vertex of sources) {
     const from = vertices.get(vertex);
     for (const link of destinations) {
       const target = vertices.get(link);
       if (from && target && !from.links.includes(link)) {
-        createRelation(from, target, name);
+        from.createLink(target, name, key);
         if (!directed && !target.links.includes(vertex))
-          createRelation(target, from, name);
+          target.createLink(from, name, key);
       } else alert('red', 'One of these vertex does not exist');
     }
   }

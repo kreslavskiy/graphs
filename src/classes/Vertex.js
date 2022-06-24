@@ -18,6 +18,12 @@ class Vertex {
     return keys;
   }
 
+  createLink(destination, linkName, keyField) {
+    const key = destination.data[keyField];
+    const links = this.linksKeys;
+    if (!links.includes(key)) this.links.push({ key, linkName });
+  }
+
   deleteLink(linkToDelete) {
     for (const link of this.links) {
       if (link.key === linkToDelete) removeFromArray(this.links, link);
