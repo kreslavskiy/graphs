@@ -87,8 +87,8 @@ const showGraph = () => {
   const vertices = graph.vertices;
   for (const vertex of vertices.values()) {
     const key = vertex.data[graph.keyField];
-    const loh = new Object(vertex);
-    const { graphName, ...output } = loh;
+    const objectified = new Object(vertex);
+    const { graphName, ...output } = objectified;
     console.log(key, '=>', output);
   }
 };
