@@ -68,68 +68,68 @@ const DATA_TESTS = [
   [
     FUNCTION_TESTS.addTest(),
     graph.vertices.get('Dima').data.age,
-    19,
+    undefined,
     'Function add() does not work properly',
   ],
 
   [
     FUNCTION_TESTS.linkTest(),
     graph.vertices.get('Dima').links[0].linkName,
-    'friends',
+    undefined,
     'Function link() does not work properly',
   ],
 
   [
     FUNCTION_TESTS.selectTest(),
     FUNCTION_TESTS.selectTest().name,
-    'Kirill',
+    undefined,
     'Function select() does not work properly',
   ],
 
   [
     FUNCTION_TESTS.modifyVertexTest(),
     graph.vertices.get('Dima').data.age,
-    13,
+    '13',
     'Function modifyVertex() does not work properly',
   ],
 
   [
     FUNCTION_TESTS.getLinkedTest(),
     FUNCTION_TESTS.getLinkedTest().name,
-    'Kirill',
+    undefined,
     'Function getLinked() does not work properly',
   ],
 
   [
     FUNCTION_TESTS.deleteLinksTest(),
     FUNCTION_TESTS.deleteLinksTest(),
-    0,
+    1,
     'Function deleteLinks() does not work properly',
   ],
 
   [
     FUNCTION_TESTS.deleteVertexTest(),
     graph.vertices.get('Dima'),
-    undefined,
+    'Dima',
     'Function deleteVertex() does not work properly',
   ],
 
   [
     FUNCTION_TESTS.deleteGraphTest(),
     graph.vertices.size,
-    0,
+    2,
     'Function deleteGraph() does not work properly',
   ],
 
   [
     FUNCTION_TESTS.isSavedTest(),
     graph.directory,
-    null,
+    'test directory',
     'Function isSaved() does not work properly',
   ],
 ];
 
-//All tests are expected to run successfully
+//All tests are expected to fail
 
 for (const test of DATA_TESTS) {
   try {
