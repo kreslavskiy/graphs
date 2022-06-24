@@ -7,21 +7,21 @@ const { FUNCTION_TESTS, graph } = require('./testsCollection.js');
 const DATA_TESTS = [
   [
     FUNCTION_TESTS.addTest(),
-    graph.vertices.get('Dima').data.age,
-    undefined,
+    typeof graph.vertices.get('Dima').data.age,
+    'string',
     'Function add() does not work properly',
   ],
 
   [
     FUNCTION_TESTS.linkTest(),
-    graph.vertices.get('Dima').links[0].linkName,
+    typeof graph.vertices.get('Dima').links[0].linkName,
     undefined,
     'Function link() does not work properly',
   ],
 
   [
     FUNCTION_TESTS.selectTest(),
-    FUNCTION_TESTS.selectTest().name,
+    typeof FUNCTION_TESTS.selectTest(),
     undefined,
     'Function select() does not work properly',
   ],
@@ -57,14 +57,14 @@ const DATA_TESTS = [
   [
     FUNCTION_TESTS.deleteGraphTest(),
     graph.vertices.size,
-    2,
+    1,
     'Function deleteGraph() does not work properly',
   ],
 
   [
     FUNCTION_TESTS.isSavedTest(),
-    graph.directory,
-    'test directory',
+    typeof graph.directory,
+    'string',
     'Function isSaved() does not work properly',
   ],
 ];
