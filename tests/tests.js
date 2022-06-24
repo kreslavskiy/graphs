@@ -61,21 +61,21 @@ const FUNCTION_TESTS = {
 
   isSavedTest() {
     isSaved();
-  }
+  },
 };
 
 const DATA_TESTS = [
   [
     FUNCTION_TESTS.addTest(),
-    graph.vertices.get('Dima').data[graph.keyField],
-    'Dima',
+    graph.vertices.get('Dima').data.age,
+    19,
     'Function add() does not work properly',
   ],
 
   [
     FUNCTION_TESTS.linkTest(),
-    FUNCTION_TESTS.linkTest().linkName,
-    FUNCTION_TESTS.linkTest().linkName,
+    graph.vertices.get('Dima').links[0].linkName,
+    'friends',
     'Function link() does not work properly',
   ],
 
@@ -83,64 +83,59 @@ const DATA_TESTS = [
     FUNCTION_TESTS.selectTest(),
     FUNCTION_TESTS.selectTest().name,
     'Kirill',
-    'Function select() does not work properly'
+    'Function select() does not work properly',
   ],
 
   [
     FUNCTION_TESTS.modifyVertexTest(),
     graph.vertices.get('Dima').data.age,
     13,
-    'Function modifyVertex() does not work properly'
+    'Function modifyVertex() does not work properly',
   ],
 
   [
     FUNCTION_TESTS.getLinkedTest(),
     FUNCTION_TESTS.getLinkedTest().name,
     'Kirill',
-    'Function getLinked() does not work properly'
+    'Function getLinked() does not work properly',
   ],
 
   [
     FUNCTION_TESTS.deleteLinksTest(),
     FUNCTION_TESTS.deleteLinksTest(),
     0,
-    'Function deleteLinks() does not work properly'
+    'Function deleteLinks() does not work properly',
   ],
 
   [
     FUNCTION_TESTS.deleteVertexTest(),
     graph.vertices.get('Dima'),
     undefined,
-    'Function deleteVertex() does not work properly'
+    'Function deleteVertex() does not work properly',
   ],
 
   [
     FUNCTION_TESTS.deleteGraphTest(),
     graph.vertices.size,
     0,
-    'Function deleteGraph() does not work properly'
+    'Function deleteGraph() does not work properly',
   ],
 
   [
     FUNCTION_TESTS.isSavedTest(),
     graph.directory,
     null,
-    'Function isSaved() does not work properly'
-  ]
+    'Function isSaved() does not work properly',
+  ],
 ];
 
 for (const test of DATA_TESTS) {
   try {
     const [functionTest, entered, expected, message] = test;
     functionTest;
-    assert.strictEqual(
-      entered,
-      expected,
-      message
-    );
+    assert.strictEqual(entered, expected, message);
     alert('green', 'Success!');
   } catch (err) {
     alert('red', err.message);
   }
 }
-
