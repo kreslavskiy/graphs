@@ -2,10 +2,9 @@
 
 const readline = require('readline');
 const fs = require('fs');
+const { Graph } = require('./classes/Graph.js');
 const { alert } = require('./tools.js');
 const {
-  createNewGraph,
-  add,
   link,
   select,
   getLinked,
@@ -19,6 +18,7 @@ const {
   modifyVertex,
   isSaved,
 } = require('./graphMethods.js');
+let { graph } = require('./graphMethods.js');
 
 console.log('Type "help" to see all commands!');
 
@@ -41,13 +41,14 @@ const commands = {
   async new() {
     const name = await question('Enter graph name: ');
     const field = await question('Enter key field: ');
-    createNewGraph(name, field);
+    graph = new Graph(name, field, null);
+    return graph;
   },
 
   async add() {
     const type = await question('Enter type of vertex: ');
     const input = await question('Enter data: ');
-    add(input, type);
+    graph.add(input, type);
   },
 
   async dlink() {

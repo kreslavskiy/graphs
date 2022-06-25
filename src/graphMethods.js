@@ -2,7 +2,6 @@
 
 const fs = require('fs');
 const { Graph } = require('./classes/Graph');
-const { Vertex } = require('./classes/Vertex');
 const {
   deserialize,
   alert,
@@ -12,25 +11,6 @@ const {
 } = require('./tools.js');
 
 let graph = new Graph();
-
-const createNewGraph = (graphName, keyField) => {
-  graph = new Graph(graphName, keyField, null);
-  return graph;
-};
-
-const add = (input, vertexType) => {
-  if (!checkInput(input)) return;
-  const inputNormalized = addQuotes(input);
-  const data = deserialize(inputNormalized);
-  const vertex = new Vertex(graph.graphName, vertexType, data);
-  if (Object.prototype.hasOwnProperty.call(data, graph.keyField)) {
-    const key = data[graph.keyField];
-    if (!graph.vertices.has(key)) {
-      graph.vertices.set(key, vertex);
-    }
-  } else alert('red', 'Vertex must contain key field');
-  return vertex;
-};
 
 const link = (source, destination, name, directed = false) => {
   const sources = normalizeInput(source);
@@ -185,8 +165,6 @@ const isSaved = () => {
 };
 
 module.exports = {
-  createNewGraph,
-  add,
   link,
   select,
   getLinked,
@@ -199,4 +177,5 @@ module.exports = {
   deleteLinks,
   modifyVertex,
   isSaved,
+  graph
 };
