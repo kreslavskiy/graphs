@@ -1,5 +1,8 @@
 # Graphs
-This program is created to work with graph data structures
+This program is created to work with graph data structures.
+
+No libraries used.
+
 ## Installation 
 1. Clone the repository: 
 ```bash
