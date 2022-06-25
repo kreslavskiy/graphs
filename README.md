@@ -60,4 +60,14 @@ Note: it also works by many-to-many principle!
 <img width="682" alt="Снимок экрана 2022-06-26 в 00 41 26" src="https://user-images.githubusercontent.com/89911844/175791252-7b3a00cd-e13b-4885-9198-0a13c47d434d.png">
 
 13. To quit program use command 'exit'. IF you have unsaved data, it'll ask you if you want to save it. Type 'y' if you do and 'n' if don’t 
-14. 
+
+## Testing
+
+To test the program, type ```node tests/tests.js```, it expects everething to execute successfully. 
+
+<img width="682" alt="Снимок экрана 2022-06-26 в 00 47 42" src="https://user-images.githubusercontent.com/89911844/175791406-7282c320-3b54-4573-8c19-fb61c9dc8f4a.png">
+
+Then type ```node tests/testsErrors.js```, it expects everything to throw errors.
+
+<img width="682" alt="Снимок экрана 2022-06-26 в 00 48 10" src="https://user-images.githubusercontent.com/89911844/175791417-ab2a3750-1e5f-4b06-b9ce-ac4f660f89e0.png">
+
