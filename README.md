@@ -20,3 +20,7 @@ Type 'help' to see what which command does.
 
 <img width="682" alt="Снимок экрана 2022-06-26 в 00 17 12" src="https://user-images.githubusercontent.com/89911844/175790770-524d4116-979d-433f-b606-6f9123420fa6.png">
 
+3. Use 'link' or 'dlink' commands to create relation between vertices. 'link' creates undirected link and 'dlink' is for directed links. Also you'll have to enter name of the link for both commands
+Note: you can link multiple vertices at once, it'll work by many-to-many principle 
+
+<img width="682" alt="Снимок экрана 2022-06-26 в 00 22 12" src="https://user-images.githubusercontent.com/89911844/175790896-b4e26951-96f9-4ecf-955c-0c42b256ae3a.png">
