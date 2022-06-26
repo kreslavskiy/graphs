@@ -8,7 +8,6 @@ const {
   deserialize,
   normalizeInput,
   alert,
-  removeFromArray,
 } = require('../tools.js');
 
 class Graph {
@@ -96,12 +95,23 @@ class Graph {
     await fs.promises.appendFile(file, data);
   }
 
+  vertexify(data) {
+    const res = new Array();
+    for (const [key, value] of data) {
+      const { graphName, type, data, links } = value;
+      const vertex = new Vertex(graphName, type, data);
+      vertex.links = links;
+      res.push([key, vertex]);
+    }
+    return new Map(res);
+  }
+
   getVerticesFromFile(fileName) {
     const file = `${fileName}.json`;
     if (fs.existsSync(file)) {
       const content = fs.readFileSync(file, 'utf-8');
       const parsed = Object.entries(JSON.parse(content));
-      const data = new Map(parsed);
+      const data = this.vertexify(parsed);
       return data;
     } else return alert('red', 'This file does not exist');
   }
@@ -127,14 +137,11 @@ class Graph {
   deleteVertex(name) {
     const vertices = this.vertices;
     const vertexToDelete = vertices.get(name);
-    console.log(vertexToDelete);
     const deletedKey = vertexToDelete.data[this.keyField];
     const deleted = vertices.delete(name);
     if (deleted) {
       for (const vertex of vertices.values()) {
-        for (const link of vertex.links) {
-          if (link.key === deletedKey) removeFromArray(vertex.links, link);
-        }
+        vertex.deleteLink(deletedKey);
       }
     }
   }
@@ -142,10 +149,8 @@ class Graph {
   deleteLinks(deleteFrom, deleteWhat) {
     const linksToDelete = normalizeInput(deleteWhat);
     const vertex = this.vertices.get(deleteFrom);
-    for (const linkToDelete of linksToDelete) {
-      for (const link of vertex.links) {
-        if (link.key === linkToDelete) removeFromArray(vertex.links, link);
-      }
+    for (const link of linksToDelete) {
+      vertex.deleteLink(link);
     }
   }
 
