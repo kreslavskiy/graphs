@@ -60,13 +60,6 @@ const DATA_TESTS = [
     1,
     'Function deleteGraph() does not work properly',
   ],
-
-  [
-    FUNCTION_TESTS.isSavedTest(),
-    typeof graph.directory,
-    'string',
-    'Function isSaved() does not work properly',
-  ],
 ];
 
 //All tests are expected to fail
