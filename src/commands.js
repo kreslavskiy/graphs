@@ -88,8 +88,7 @@ const commands = {
 
   async import() {
     const fileName = await question('Enter file name: ');
-    const field = await question('Enter key field: ');
-    graph.setGraph(fileName, field);
+    graph.setGraph(fileName);
   },
 
   async join() {
@@ -117,8 +116,8 @@ const commands = {
         'Seems like you have unsaved changes. Wanna save?(y/n) '
       );
       if (toSave === 'y') await commands.save();
-      rl.close();
     }
+    rl.close();
   },
 };
 

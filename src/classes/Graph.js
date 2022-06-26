@@ -22,7 +22,7 @@ class Graph {
     if (!checkInput(input)) return;
     const inputNormalized = addQuotes(input);
     const data = deserialize(inputNormalized);
-    const vertex = new Vertex(this.graphName, vertexType, data);
+    const vertex = new Vertex(this.graphName, vertexType, this.keyField, data);
     if (Object.prototype.hasOwnProperty.call(data, this.keyField)) {
       const key = data[this.keyField];
       if (!this.vertices.has(key)) {
@@ -96,14 +96,14 @@ class Graph {
   }
 
   vertexify(data) {
-    const res = new Array();
+    const vertices = new Array();
     for (const [key, value] of data) {
-      const { graphName, type, data, links } = value;
-      const vertex = new Vertex(graphName, type, data);
+      const { graphName, type, keyField, data, links } = value;
+      const vertex = new Vertex(graphName, type, keyField, data);
       vertex.links = links;
-      res.push([key, vertex]);
+      vertices.push([key, vertex]);
     }
-    return new Map(res);
+    return new Map(vertices);
   }
 
   getVerticesFromFile(fileName) {
@@ -116,11 +116,11 @@ class Graph {
     } else return alert('red', 'This file does not exist');
   }
 
-  setGraph(fileName, keyField) {
+  setGraph(fileName) {
     const vertices = this.getVerticesFromFile(fileName);
     const [vertex] = vertices.values();
     this.graphName = vertex.graphName;
-    this.keyField = keyField;
+    this.keyField = vertex.keyField;
     this.vertices = vertices;
     return this.vertices;
   }

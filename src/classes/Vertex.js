@@ -3,9 +3,10 @@
 const { removeFromArray } = require('../tools.js');
 
 class Vertex {
-  constructor(graphName, type, data) {
+  constructor(graphName, type,  keyField, data) {
     this.graphName = graphName;
     this.type = type;
+    this.keyField = keyField;
     this.data = data;
     this.links = new Array();
   }
