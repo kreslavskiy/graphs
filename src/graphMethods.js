@@ -12,36 +12,6 @@ const {
 
 let graph = new Graph();
 
-const select = (query) => {
-  const result = new Array();
-  if (query) {
-    if (!checkInput(query)) return;
-    const normalized = addQuotes(query);
-    const input = deserialize(normalized);
-    for (const vertex of graph.vertices.values()) {
-      const { data } = vertex;
-      if (data) {
-        for (const field in input) {
-          if (data[field] === input[field]) result.push(vertex);
-        }
-      }
-    }
-  }
-  return result;
-};
-
-const getLinked = (links) => {
-  const result = new Set();
-  links = links.replaceAll(' ', '').split(',');
-  for (const vertex of graph.vertices.values()) {
-    const vertexLinks = vertex.linksKeys;
-    for (const link of links) {
-      if (vertexLinks.includes(link)) result.add(vertex);
-    }
-  }
-  return Array.from(result);
-};
-
 const saveToFile = async (fileName) => {
   const file = `${fileName}.json`;
   graph.directory = file;
@@ -134,8 +104,6 @@ const isSaved = () => {
 };
 
 module.exports = {
-  select,
-  getLinked,
   saveToFile,
   setGraph,
   mergeTwoGraphs,

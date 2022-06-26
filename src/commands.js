@@ -5,8 +5,6 @@ const fs = require('fs');
 const { Graph } = require('./classes/Graph.js');
 const { alert } = require('./tools.js');
 const {
-  select,
-  getLinked,
   saveToFile,
   setGraph,
   mergeTwoGraphs,
@@ -66,8 +64,8 @@ const commands = {
   async select() {
     const query = await question('Enter data: ');
     const links = await question('Enter links: ');
-    const selected = select(query);
-    const link = getLinked(links);
+    const selected = graph.select(query);
+    const link = graph.getLinked(links);
     if (![...selected, ...link].length) return alert('yell', 'Nothing found');
     if (selected.length && link.length) {
       const res = selected.filter((value) => link.includes(value));

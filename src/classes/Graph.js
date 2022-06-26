@@ -21,7 +21,7 @@ class Graph {
     if (!checkInput(input)) return;
     const inputNormalized = addQuotes(input);
     const data = deserialize(inputNormalized);
-    const vertex = new Vertex(this.thisName, vertexType, data);
+    const vertex = new Vertex(this.graphName, vertexType, data);
     if (Object.prototype.hasOwnProperty.call(data, this.keyField)) {
       const key = data[this.keyField];
       if (!this.vertices.has(key)) {
@@ -47,6 +47,36 @@ class Graph {
         } else alert('red', 'One of these vertex does not exist');
       }
     }
+  }
+
+  select(query) {
+    const result = new Array();
+    if (query) {
+      if (!checkInput(query)) return;
+      const normalized = addQuotes(query);
+      const input = deserialize(normalized);
+      for (const vertex of this.vertices.values()) {
+        const { data } = vertex;
+        if (data) {
+          for (const field in input) {
+            if (data[field] === input[field]) result.push(vertex);
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  getLinked(links) {
+    const result = new Set();
+    links = links.replaceAll(' ', '').split(',');
+    for (const vertex of this.vertices.values()) {
+      const vertexLinks = vertex.linksKeys;
+      for (const link of links) {
+        if (vertexLinks.includes(link)) result.add(vertex);
+      }
+    }
+    return Array.from(result);
   }
 
   renameKey(oldName, newName, data) {
