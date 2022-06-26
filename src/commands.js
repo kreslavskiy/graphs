@@ -26,7 +26,7 @@ rl.prompt();
 
 const question = (str) => new Promise((answer) => rl.question(str, answer));
 
-let graph;
+let graph = new Graph();
 
 const commands = {
   help() {
@@ -98,7 +98,7 @@ const commands = {
   async import() {
     const fileName = await question('Enter file name: ');
     const field = await question('Enter key field: ');
-    setGraph(fileName, field);
+    graph.setGraph(fileName, field);
   },
 
   async join() {
@@ -144,7 +144,8 @@ rl.on('line', async (line) => {
     else alert('red', 'Unknown command');
     rl.prompt();
   } catch (err) {
-    alert('red', 'Uncought error');
+    //alert('red', 'Uncought error');
+    console.log(err);
     process.exit();
   }
 }).on('close', () => process.exit(0));

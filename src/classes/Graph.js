@@ -95,6 +95,25 @@ class Graph {
     await fs.promises.appendFile(file, data);
   }
 
+  getVerticesFromFile(fileName) {
+    const file = `${fileName}.json`;
+    if (fs.existsSync(file)) {
+      const content = fs.readFileSync(file, 'utf-8');
+      const parsed = Object.entries(JSON.parse(content));
+      const data = new Map(parsed);
+      return data;
+    } else return alert('red', 'This file does not exist');
+  }
+
+  setGraph(fileName, keyField) {
+    const vertices = this.getVerticesFromFile(fileName);
+    const [ vertex ] = vertices.values();
+    this.graphName = vertex.graphName;
+    this.keyField = keyField;
+    this.vertices = vertices;
+    return this.vertices;
+  }
+
   renameKey(oldName, newName, data) {
     this.vertices.set(newName, data);
     this.vertices.delete(oldName);

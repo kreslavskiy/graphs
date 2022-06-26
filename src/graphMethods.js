@@ -1,7 +1,6 @@
 'use strict';
 
 const fs = require('fs');
-const { Graph } = require('./classes/Graph');
 const {
   deserialize,
   alert,
@@ -9,39 +8,6 @@ const {
   addQuotes,
   normalizeInput,
 } = require('./tools.js');
-
-/*const saveToFile = async (fileName) => {
-  const file = `${fileName}.json`;
-  graph.directory = file;
-  const vertices = Object.fromEntries(graph.vertices);
-  let data = JSON.stringify(vertices);
-  if (fs.existsSync(file)) {
-    const oldData = JSON.parse(fs.readFileSync(file, 'utf-8'));
-    data = JSON.stringify(Object.assign(oldData, vertices));
-    fs.truncate(file, (err) => {
-      if (err) throw err;
-    });
-  }
-  await fs.promises.appendFile(file, data);
-};*/
-
-const getVerticesFromFile = (fileName) => {
-  const file = `${fileName}.json`;
-  if (fs.existsSync(file)) {
-    const content = fs.readFileSync(file, 'utf-8');
-    const parsed = Object.entries(JSON.parse(content));
-    const data = new Map(parsed);
-    return data;
-  } else return alert('red', 'This file does not exist');
-};
-
-const setGraph = (fileName, keyField) => {
-  const vertices = getVerticesFromFile(fileName);
-  const [vertex] = vertices.values();
-  graph = new Graph(vertex.graphName, keyField);
-  graph.vertices = vertices;
-  return graph.vertices;
-};
 
 const mergeTwoGraphs = (fileName) => {
   const vertices = getVerticesFromFile(fileName);
@@ -102,7 +68,6 @@ const isSaved = () => {
 };
 
 module.exports = {
-  setGraph,
   mergeTwoGraphs,
   deleteVertex,
   deleteGraph,
