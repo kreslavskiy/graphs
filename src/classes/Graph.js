@@ -1,6 +1,11 @@
 'use strict';
 
-const { checkInput, addQuotes, deserialize } = require('../tools.js');
+const {
+  checkInput,
+  addQuotes,
+  deserialize,
+  normalizeInput,
+} = require('../tools.js');
 const { alert } = require('../tools.js');
 const { Vertex } = require('../classes/Vertex.js');
 
@@ -24,6 +29,24 @@ class Graph {
       }
     } else alert('red', 'Vertex must contain key field');
     return vertex;
+  }
+
+  link(source, destination, name, directed = false) {
+    const sources = normalizeInput(source);
+    const destinations = normalizeInput(destination);
+    const vertices = this.vertices;
+    const key = this.keyField;
+    for (const vertex of sources) {
+      const from = vertices.get(vertex);
+      for (const link of destinations) {
+        const target = vertices.get(link);
+        if (from && target && !from.links.includes(link)) {
+          from.createLink(target, name, key);
+          if (!directed && !target.links.includes(vertex))
+            target.createLink(from, name, key);
+        } else alert('red', 'One of these vertex does not exist');
+      }
+    }
   }
 
   renameKey(oldName, newName, data) {

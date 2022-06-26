@@ -12,24 +12,6 @@ const {
 
 let graph = new Graph();
 
-const link = (source, destination, name, directed = false) => {
-  const sources = normalizeInput(source);
-  const destinations = normalizeInput(destination);
-  const vertices = graph.vertices;
-  const key = graph.keyField;
-  for (const vertex of sources) {
-    const from = vertices.get(vertex);
-    for (const link of destinations) {
-      const target = vertices.get(link);
-      if (from && target && !from.links.includes(link)) {
-        from.createLink(target, name, key);
-        if (!directed && !target.links.includes(vertex))
-          target.createLink(from, name, key);
-      } else alert('red', 'One of these vertex does not exist');
-    }
-  }
-};
-
 const select = (query) => {
   const result = new Array();
   if (query) {
@@ -58,19 +40,6 @@ const getLinked = (links) => {
     }
   }
   return Array.from(result);
-};
-
-const showGraph = () => {
-  console.log('Graph name:', graph.graphName);
-  if (!graph.vertices.size)
-    return alert('red', 'There is no vertices in graph');
-  const vertices = graph.vertices;
-  for (const vertex of vertices.values()) {
-    const key = vertex.data[graph.keyField];
-    const objectified = new Object(vertex);
-    const { graphName, ...output } = objectified;
-    console.log(key, '=>', output);
-  }
 };
 
 const saveToFile = async (fileName) => {
@@ -165,10 +134,8 @@ const isSaved = () => {
 };
 
 module.exports = {
-  link,
   select,
   getLinked,
-  showGraph,
   saveToFile,
   setGraph,
   mergeTwoGraphs,

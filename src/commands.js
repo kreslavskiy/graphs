@@ -5,10 +5,8 @@ const fs = require('fs');
 const { Graph } = require('./classes/Graph.js');
 const { alert } = require('./tools.js');
 const {
-  link,
   select,
   getLinked,
-  showGraph,
   saveToFile,
   setGraph,
   mergeTwoGraphs,
@@ -55,14 +53,14 @@ const commands = {
     const linkFrom = await question('From: ');
     const linkTo = await question('To: ');
     const type = await question('Enter link name: ');
-    link(linkFrom, linkTo, type, true);
+    graph.link(linkFrom, linkTo, type, true);
   },
 
   async link() {
     const linkFrom = await question('From: ');
     const linkTo = await question('To: ');
     const name = await question('Enter link name: ');
-    link(linkFrom, linkTo, name);
+    graph.link(linkFrom, linkTo, name);
   },
 
   async select() {
@@ -116,7 +114,16 @@ const commands = {
   },
 
   show() {
-    showGraph();
+    console.log('Graph name:', graph.graphName);
+    if (!graph.vertices.size)
+      return alert('red', 'There is no vertices in graph');
+    const vertices = graph.vertices;
+    for (const vertex of vertices.values()) {
+      const key = vertex.data[graph.keyField];
+      const objectified = new Object(vertex);
+      const { graphName, ...output } = objectified;
+      console.log(key, '=>', output);
+    }
   },
 
   async exit() {
