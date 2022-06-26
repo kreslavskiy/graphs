@@ -37,9 +37,15 @@ Type 'help' to see what which command does.
 
 5. If you created many vertices and you want to see concrete ones, you can use command 'select', and select vertices by data:
 
+<img width="682" alt="Снимок экрана 2022-06-27 в 00 05 23" src="https://user-images.githubusercontent.com/89911844/175833781-3ae20885-5284-43a2-b58d-d5d9ca3cc039.png">
+
 or by links:
 
+<img width="682" alt="Снимок экрана 2022-06-27 в 00 06 09" src="https://user-images.githubusercontent.com/89911844/175833793-431ee15d-3b53-4a8c-bf1f-011d07683278.png">
+
 or by both:
+
+<img width="682" alt="Снимок экрана 2022-06-27 в 00 06 39" src="https://user-images.githubusercontent.com/89911844/175833807-803e8dfd-2528-410b-821a-1dd53e4845ca.png">
 
 6. To modify vertex data, you should use command 'modify', choose the vertex you want to change and enter new data. All new data will overwrite on existing one.
 
@@ -58,14 +64,20 @@ or by both:
 
 <img width="682" alt="Снимок экрана 2022-06-26 в 00 35 45" src="https://user-images.githubusercontent.com/89911844/175791165-b675b9b7-9828-4229-a50e-d94b993b04ae.png">
 
-9. You also can save your graph, type 'save', enter file name and it'll be saved in .json format
-10. After saving, you can also open your graph in my program. Use command 'import' and enter file name
-11. If you created a graph and you want to concatinate it with another one, you can use command 'join', it'll upload data from entered file and unite these 2 graphs
-12. To delete all vertices at once use command 'clear', but you need to enter the name of graph to chack if you are sure
+9. You also can save your graph, type 'save', enter file name and it'll be saved in .json format.
+10. After saving, you can also open your graph in my program. Use command 'import' and enter file name.
+
+<img width="682" alt="Снимок экрана 2022-06-27 в 00 08 02" src="https://user-images.githubusercontent.com/89911844/175833873-1f512f3f-76a5-4d46-99da-5b57ef4be8de.png">
+
+11. If you created a graph and you want to concatinate it with another one, you can use command 'join', it'll upload data from entered file and unite these 2 graphs.
+>**Warning**: if graphs have different key fields, they won't merge
+<img width="682" alt="Снимок экрана 2022-06-27 в 00 09 42" src="https://user-images.githubusercontent.com/89911844/175833914-b6e01f03-d9d5-4520-be31-c06d9e490bad.png">
+
+12. To delete all vertices at once use command 'clear', but you need to enter the name of graph to chack if you are sure.
 
 <img width="682" alt="Снимок экрана 2022-06-26 в 00 41 26" src="https://user-images.githubusercontent.com/89911844/175791252-7b3a00cd-e13b-4885-9198-0a13c47d434d.png">
 
-13. To quit program use command 'exit'. IF you have unsaved data, it'll ask you if you want to save it. Type 'y' if you do and 'n' if don’t 
+13. To quit program use command 'exit'. IF you have unsaved data, it'll ask you if you want to save it. Type 'y' if you do and 'n' if don’t.
 
 ## Testing
 
