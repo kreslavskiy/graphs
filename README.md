@@ -21,7 +21,7 @@ Type 'help' to see what which command does.
 
 2. To add a new vertex to your graph use command 'add', then you'll have to enter type of the vertex, which you choose by yourself, and data that the vertex will contain. 
 
->**Warning**: you mustn’t use quotes, otherwise vertex won't be added to the graph.
+>**Warning**: don’t use quotes, otherwise vertex won't be added to the graph.
 
 <img width="682" alt="Снимок экрана 2022-06-26 в 00 17 12" src="https://user-images.githubusercontent.com/89911844/175790770-524d4116-979d-433f-b606-6f9123420fa6.png">
 
