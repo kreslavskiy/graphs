@@ -7,7 +7,8 @@ const {
   addQuotes,
   deserialize,
   normalizeInput,
-  alert
+  alert,
+  removeFromArray,
 } = require('../tools.js');
 
 class Graph {
@@ -107,7 +108,7 @@ class Graph {
 
   setGraph(fileName, keyField) {
     const vertices = this.getVerticesFromFile(fileName);
-    const [ vertex ] = vertices.values();
+    const [vertex] = vertices.values();
     this.graphName = vertex.graphName;
     this.keyField = keyField;
     this.vertices = vertices;
@@ -117,6 +118,35 @@ class Graph {
   mergeTwoGraphs(fileName) {
     const vertices = this.getVerticesFromFile(fileName);
     this.vertices = new Map([...this.vertices, ...vertices]);
+  }
+
+  deleteGraph(name) {
+    if (name === this.graphName) this.vertices.clear();
+  }
+
+  deleteVertex(name) {
+    const vertices = this.vertices;
+    const vertexToDelete = vertices.get(name);
+    console.log(vertexToDelete);
+    const deletedKey = vertexToDelete.data[this.keyField];
+    const deleted = vertices.delete(name);
+    if (deleted) {
+      for (const vertex of vertices.values()) {
+        for (const link of vertex.links) {
+          if (link.key === deletedKey) removeFromArray(vertex.links, link);
+        }
+      }
+    }
+  }
+
+  deleteLinks(deleteFrom, deleteWhat) {
+    const linksToDelete = normalizeInput(deleteWhat);
+    const vertex = this.vertices.get(deleteFrom);
+    for (const linkToDelete of linksToDelete) {
+      for (const link of vertex.links) {
+        if (link.key === linkToDelete) removeFromArray(vertex.links, link);
+      }
+    }
   }
 
   renameKey(oldName, newName, data) {

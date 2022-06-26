@@ -5,9 +5,6 @@ const fs = require('fs');
 const { Graph } = require('./classes/Graph.js');
 const { alert } = require('./tools.js');
 const {
-  deleteVertex,
-  deleteGraph,
-  deleteLinks,
   modifyVertex,
   isSaved,
 } = require('./graphMethods.js');
@@ -79,13 +76,13 @@ const commands = {
 
   async delete() {
     const vertexToDelete = await question('Enter vertex you want to delete: ');
-    deleteVertex(vertexToDelete);
+    graph.deleteVertex(vertexToDelete);
   },
 
   async unlink() {
     const deleteFrom = await question('Vertex you want to delete links from: ');
     const deleted = await question('Links you want to delete: ');
-    deleteLinks(deleteFrom, deleted);
+    graph.deleteLinks(deleteFrom, deleted);
   },
 
   async save() {
@@ -106,7 +103,7 @@ const commands = {
 
   async clear() {
     const graphName = await question('Enter name of graph you want to clear: ');
-    deleteGraph(graphName);
+    graph.deleteGraph(graphName);
   },
 
   show() {

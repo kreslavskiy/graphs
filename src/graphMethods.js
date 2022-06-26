@@ -6,32 +6,7 @@ const {
   alert,
   checkInput,
   addQuotes,
-  normalizeInput,
 } = require('./tools.js');
-
-const deleteGraph = (name) => {
-  if (name === graph.graphName) graph.vertices.clear();
-};
-
-const deleteVertex = (name) => {
-  const vertices = graph.vertices;
-  const vertexToDelete = vertices.get(name);
-  const deletedKey = vertexToDelete.data[graph.keyField];
-  const deleted = vertices.delete(name);
-  if (deleted) {
-    for (const vertex of vertices.values()) {
-      vertex.deleteLink(deletedKey);
-    }
-  }
-};
-
-const deleteLinks = (deleteFrom, deleteWhat) => {
-  const linksToDelete = normalizeInput(deleteWhat);
-  const vertex = graph.vertices.get(deleteFrom);
-  for (const link of linksToDelete) {
-    vertex.deleteLink(link);
-  }
-};
 
 const modifyVertex = (link, newData) => {
   if (!checkInput(newData)) return;
@@ -63,9 +38,6 @@ const isSaved = () => {
 };
 
 module.exports = {
-  deleteVertex,
-  deleteGraph,
-  deleteLinks,
   modifyVertex,
   isSaved,
 };
