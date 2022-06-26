@@ -57,11 +57,21 @@ const addQuotes = (line) => {
   return result.join(',');
 };
 
+const displayVertices = (vertices, keyField) => {
+  for (const vertex of vertices) {
+    const key = vertex.data[keyField];
+    const objectified = new Object(vertex);
+    const { graphName, ...output } = objectified;
+    console.log(key, '=>', output);
+  }
+};
+
 module.exports = {
   deserialize,
   removeFromArray,
   alert,
   checkInput,
   addQuotes,
-  normalizeInput
+  normalizeInput,
+  displayVertices
 };

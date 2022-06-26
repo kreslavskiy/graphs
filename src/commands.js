@@ -3,7 +3,7 @@
 const readline = require('readline');
 const fs = require('fs');
 const { Graph } = require('./classes/Graph.js');
-const { alert } = require('./tools.js');
+const { alert, displayVertices } = require('./tools.js');
 
 console.log('Type "help" to see all commands!');
 
@@ -60,8 +60,8 @@ const commands = {
     if (![...selected, ...link].length) return alert('yell', 'Nothing found');
     if (selected.length && link.length) {
       const res = selected.filter((value) => link.includes(value));
-      console.dir(res);
-    } else console.dir([...selected, ...link]);
+      displayVertices(res, graph.keyField);
+    } else displayVertices([...selected, ...link], graph.keyField);
   },
 
   async modify() {
@@ -107,13 +107,8 @@ const commands = {
     console.log('Graph name:', graph.graphName);
     if (!graph.vertices.size)
       return alert('red', 'There is no vertices in graph');
-    const vertices = graph.vertices;
-    for (const vertex of vertices.values()) {
-      const key = vertex.data[graph.keyField];
-      const objectified = new Object(vertex);
-      const { graphName, ...output } = objectified;
-      console.log(key, '=>', output);
-    }
+    const vertices = graph.vertices.values();
+    displayVertices(vertices, graph.keyField);
   },
 
   async exit() {
