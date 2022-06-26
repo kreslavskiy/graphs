@@ -5,7 +5,6 @@ const fs = require('fs');
 const { Graph } = require('./classes/Graph.js');
 const { alert } = require('./tools.js');
 const {
-  modifyVertex,
   isSaved,
 } = require('./graphMethods.js');
 
@@ -71,7 +70,7 @@ const commands = {
   async modify() {
     const vertex = await question('Vertex you want to modify: ');
     const data = await question('Data you want to modify: ');
-    modifyVertex(vertex, data);
+    graph.modifyVertex(vertex, data);
   },
 
   async delete() {

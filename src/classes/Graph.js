@@ -160,6 +160,26 @@ class Graph {
       }
     }
   }
+
+  modifyVertex(link, newData) {
+    if (!checkInput(newData)) return;
+    const modificator = deserialize(addQuotes(newData));
+    const vertex = this.vertices.get(link);
+    const keyField = this.keyField;
+
+    if (this.vertices.has(modificator[keyField]))
+      return alert('red', 'Vertex with this key field is already exists');
+
+    for (const [key, value] of Object.entries(modificator)) {
+      if (Object.prototype.hasOwnProperty.call(vertex.data, key)) {
+        if (vertex.data[key] !== modificator[key])
+          vertex.data[key] = modificator[key];
+      } else vertex.data[key] = value;
+    }
+    if (link !== vertex.data[keyField]) {
+      this.renameKey(link, vertex.data[keyField], vertex);
+    }
+  }
 }
 
 module.exports = { Graph };
