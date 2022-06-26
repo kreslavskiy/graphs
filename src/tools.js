@@ -57,12 +57,11 @@ const addQuotes = (line) => {
   return result.join(',');
 };
 
-const displayVertices = (vertices, keyField) => {
+const displayVertices = (vertices) => {
   for (const vertex of vertices) {
-    const key = vertex.data[keyField];
     const objectified = new Object(vertex);
-    const { graphName, ...output } = objectified;
-    console.log(key, '=>', output);
+    const { graphName, keyField, ...output } = objectified;
+    console.log(vertex.data[keyField], '=>', output);
   }
 };
 
