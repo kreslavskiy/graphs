@@ -5,8 +5,6 @@ const fs = require('fs');
 const { Graph } = require('./classes/Graph.js');
 const { alert } = require('./tools.js');
 const {
-  setGraph,
-  mergeTwoGraphs,
   deleteVertex,
   deleteGraph,
   deleteLinks,
@@ -103,7 +101,7 @@ const commands = {
 
   async join() {
     const fileName = await question('Enter file name: ');
-    mergeTwoGraphs(fileName);
+    graph.mergeTwoGraphs(fileName);
   },
 
   async clear() {

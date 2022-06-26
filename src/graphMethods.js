@@ -9,11 +9,6 @@ const {
   normalizeInput,
 } = require('./tools.js');
 
-const mergeTwoGraphs = (fileName) => {
-  const vertices = getVerticesFromFile(fileName);
-  graph.vertices = new Map([...graph.vertices, ...vertices]);
-};
-
 const deleteGraph = (name) => {
   if (name === graph.graphName) graph.vertices.clear();
 };
@@ -68,7 +63,6 @@ const isSaved = () => {
 };
 
 module.exports = {
-  mergeTwoGraphs,
   deleteVertex,
   deleteGraph,
   deleteLinks,

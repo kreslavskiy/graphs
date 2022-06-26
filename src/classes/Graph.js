@@ -114,6 +114,11 @@ class Graph {
     return this.vertices;
   }
 
+  mergeTwoGraphs(fileName) {
+    const vertices = this.getVerticesFromFile(fileName);
+    this.vertices = new Map([...this.vertices, ...vertices]);
+  }
+
   renameKey(oldName, newName, data) {
     this.vertices.set(newName, data);
     this.vertices.delete(oldName);
