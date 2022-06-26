@@ -4,9 +4,6 @@ const readline = require('readline');
 const fs = require('fs');
 const { Graph } = require('./classes/Graph.js');
 const { alert } = require('./tools.js');
-const {
-  isSaved,
-} = require('./graphMethods.js');
 
 console.log('Type "help" to see all commands!');
 
@@ -120,7 +117,7 @@ const commands = {
   },
 
   async exit() {
-    if (!isSaved()) {
+    if (!graph.directory) {
       const toSave = await question(
         'Seems like you have unsaved changes. Wanna save?(y/n) '
       );
@@ -138,8 +135,7 @@ rl.on('line', async (line) => {
     else alert('red', 'Unknown command');
     rl.prompt();
   } catch (err) {
-    //alert('red', 'Uncought error');
-    console.log(err);
+    alert('red', 'Uncought error');
     process.exit();
   }
 }).on('close', () => process.exit(0));
