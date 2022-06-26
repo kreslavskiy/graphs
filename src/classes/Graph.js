@@ -1,13 +1,14 @@
 'use strict';
 
+const fs = require('fs');
+const { Vertex } = require('../classes/Vertex.js');
 const {
   checkInput,
   addQuotes,
   deserialize,
   normalizeInput,
+  alert
 } = require('../tools.js');
-const { alert } = require('../tools.js');
-const { Vertex } = require('../classes/Vertex.js');
 
 class Graph {
   constructor(graphName, keyField, directory) {
@@ -77,6 +78,21 @@ class Graph {
       }
     }
     return Array.from(result);
+  }
+
+  async saveToFile(fileName) {
+    const file = `${fileName}.json`;
+    this.directory = file;
+    const vertices = Object.fromEntries(this.vertices);
+    let data = JSON.stringify(vertices);
+    if (fs.existsSync(file)) {
+      const oldData = JSON.parse(fs.readFileSync(file, 'utf-8'));
+      data = JSON.stringify(Object.assign(oldData, vertices));
+      fs.truncate(file, (err) => {
+        if (err) throw err;
+      });
+    }
+    await fs.promises.appendFile(file, data);
   }
 
   renameKey(oldName, newName, data) {

@@ -10,9 +10,7 @@ const {
   normalizeInput,
 } = require('./tools.js');
 
-let graph = new Graph();
-
-const saveToFile = async (fileName) => {
+/*const saveToFile = async (fileName) => {
   const file = `${fileName}.json`;
   graph.directory = file;
   const vertices = Object.fromEntries(graph.vertices);
@@ -25,7 +23,7 @@ const saveToFile = async (fileName) => {
     });
   }
   await fs.promises.appendFile(file, data);
-};
+};*/
 
 const getVerticesFromFile = (fileName) => {
   const file = `${fileName}.json`;
@@ -104,7 +102,6 @@ const isSaved = () => {
 };
 
 module.exports = {
-  saveToFile,
   setGraph,
   mergeTwoGraphs,
   deleteVertex,
@@ -112,5 +109,4 @@ module.exports = {
   deleteLinks,
   modifyVertex,
   isSaved,
-  graph
 };

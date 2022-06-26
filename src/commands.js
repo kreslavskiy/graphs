@@ -5,7 +5,6 @@ const fs = require('fs');
 const { Graph } = require('./classes/Graph.js');
 const { alert } = require('./tools.js');
 const {
-  saveToFile,
   setGraph,
   mergeTwoGraphs,
   deleteVertex,
@@ -14,7 +13,6 @@ const {
   modifyVertex,
   isSaved,
 } = require('./graphMethods.js');
-let { graph } = require('./graphMethods.js');
 
 console.log('Type "help" to see all commands!');
 
@@ -27,6 +25,8 @@ const rl = readline.createInterface({
 rl.prompt();
 
 const question = (str) => new Promise((answer) => rl.question(str, answer));
+
+let graph;
 
 const commands = {
   help() {
@@ -92,7 +92,7 @@ const commands = {
 
   async save() {
     const name = await question('Enter file name: ');
-    saveToFile(name);
+    graph.saveToFile(name);
   },
 
   async import() {
@@ -112,6 +112,7 @@ const commands = {
   },
 
   show() {
+    if (!graph) return alert('red', 'You have not created graph yet');
     console.log('Graph name:', graph.graphName);
     if (!graph.vertices.size)
       return alert('red', 'There is no vertices in graph');
