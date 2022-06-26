@@ -19,12 +19,13 @@ Type 'help' to see what which command does.
 
 <img width="682" alt="Снимок экрана 2022-06-26 в 00 13 08" src="https://user-images.githubusercontent.com/89911844/175790691-cd3f63cb-72d4-450c-a9cf-7d180361dd95.png">
 
-2. To add a new vertex to your graph use command 'add', then you'll have to enter type of the vertex, which you choose by yourself, and data that the vertex will contain. Pay attention: you mustn’t use quotes, otherwise vertex won't be added to the graph.
+2. To add a new vertex to your graph use command 'add', then you'll have to enter type of the vertex, which you choose by yourself, and data that the vertex will contain. 
+**Warning**: you mustn’t use quotes, otherwise vertex won't be added to the graph.
 
 <img width="682" alt="Снимок экрана 2022-06-26 в 00 17 12" src="https://user-images.githubusercontent.com/89911844/175790770-524d4116-979d-433f-b606-6f9123420fa6.png">
 
 3. Use 'link' or 'dlink' commands to create a relation between vertices. 'link' creates undirected link and 'dlink' is for directed links. Also you'll have to enter name of the link for both commands
-Note: you can link multiple vertices at once, it'll work by many-to-many principle 
+**Note**: you can link multiple vertices at once, it'll work by many-to-many principle 
 
 <img width="682" alt="Снимок экрана 2022-06-26 в 00 22 12" src="https://user-images.githubusercontent.com/89911844/175790896-b4e26951-96f9-4ecf-955c-0c42b256ae3a.png">
 
@@ -42,12 +43,12 @@ or by both:
 
 <img width="682" alt="Снимок экрана 2022-06-26 в 00 28 24" src="https://user-images.githubusercontent.com/89911844/175791040-3aadbf7d-6438-4103-86b0-e0c05cd6af60.png">
 
-Note: you can change even key field of data!
+**Note**: you can change even key field of data!
 
 <img width="682" alt="Снимок экрана 2022-06-26 в 00 31 37" src="https://user-images.githubusercontent.com/89911844/175791099-8cb1da7b-9720-464c-9ca7-6b449477b66a.png">
 
 7. If you want to delete relation between vertices, use 'unlink' command. 
-Note: it also works by many-to-many principle!
+**Note**: it also works by many-to-many principle!
 
 <img width="682" alt="Снимок экрана 2022-06-26 в 00 34 28" src="https://user-images.githubusercontent.com/89911844/175791147-fa6cf556-5b09-4008-8931-863855e53dfa.png">
 
