@@ -50,7 +50,7 @@ or by both:
 <img width="682" alt="Снимок экрана 2022-06-26 в 00 31 37" src="https://user-images.githubusercontent.com/89911844/175791099-8cb1da7b-9720-464c-9ca7-6b449477b66a.png">
 
 7. If you want to delete relation between vertices, use 'unlink' command. 
->**Note**: it also works by many-to-many principle!
+>**Note**: it works by one-to-many principle
 
 <img width="682" alt="Снимок экрана 2022-06-26 в 00 34 28" src="https://user-images.githubusercontent.com/89911844/175791147-fa6cf556-5b09-4008-8931-863855e53dfa.png">
 
