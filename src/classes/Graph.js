@@ -126,8 +126,14 @@ class Graph {
   }
 
   mergeTwoGraphs(fileName) {
-    const vertices = this.getVerticesFromFile(fileName);
-    this.vertices = new Map([...this.vertices, ...vertices]);
+    const verticesFromFile = this.getVerticesFromFile(fileName);
+    const [ vertex ] = this.vertices.values();
+    const [ vertexFromFile ] = verticesFromFile.values();
+    if (vertex.keyField === vertexFromFile.keyField) {
+      this.vertices = new Map([...this.vertices, ...verticesFromFile]);
+    } else {
+      alert('red', 'Unable to merge. THese graphs have different key fields');
+    }
   }
 
   deleteGraph(name) {
