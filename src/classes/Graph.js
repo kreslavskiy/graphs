@@ -95,7 +95,7 @@ class Graph {
     await fs.promises.appendFile(file, data);
   }
 
-  vertexify(data) {
+  #vertexify(data) {
     const vertices = new Array();
     for (const [key, value] of data) {
       const { graphName, type, keyField, data, links } = value;
@@ -106,18 +106,18 @@ class Graph {
     return new Map(vertices);
   }
 
-  getVerticesFromFile(fileName) {
+  #getVerticesFromFile(fileName) {
     const file = `${fileName}.json`;
     if (fs.existsSync(file)) {
       const content = fs.readFileSync(file, 'utf-8');
       const parsed = Object.entries(JSON.parse(content));
-      const data = this.vertexify(parsed);
+      const data = this.#vertexify(parsed);
       return data;
     } else return alert('red', 'This file does not exist');
   }
 
   setGraph(fileName) {
-    const vertices = this.getVerticesFromFile(fileName);
+    const vertices = this.#getVerticesFromFile(fileName);
     const [vertex] = vertices.values();
     this.graphName = vertex.graphName;
     this.keyField = vertex.keyField;
@@ -127,7 +127,7 @@ class Graph {
   }
 
   mergeTwoGraphs(fileName) {
-    const verticesFromFile = this.getVerticesFromFile(fileName);
+    const verticesFromFile = this.#getVerticesFromFile(fileName);
     const [ vertex ] = this.vertices.values();
     const [ vertexFromFile ] = verticesFromFile.values();
     if (vertex.keyField === vertexFromFile.keyField) {
@@ -161,7 +161,7 @@ class Graph {
     }
   }
 
-  renameKey(oldName, newName, data) {
+  #renameKey(oldName, newName, data) {
     this.vertices.set(newName, data);
     this.vertices.delete(oldName);
     for (const vertex of this.vertices.values()) {
@@ -189,7 +189,7 @@ class Graph {
       } else vertex.data[key] = value;
     }
     if (link !== vertex.data[keyField]) {
-      this.renameKey(link, vertex.data[keyField], vertex);
+      this.#renameKey(link, vertex.data[keyField], vertex);
     }
   }
 }
