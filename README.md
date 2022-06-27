@@ -1,6 +1,8 @@
 # Graphs
 This program is created to work with graph data structures.
 
+You can look which [themes](THEMES.md) I used in this project.
+
 No libraries used.
 
 ## Installation 
