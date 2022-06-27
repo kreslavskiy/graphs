@@ -121,6 +121,7 @@ class Graph {
     const [vertex] = vertices.values();
     this.graphName = vertex.graphName;
     this.keyField = vertex.keyField;
+    this.directory = fileName;
     this.vertices = vertices;
     return this.vertices;
   }
