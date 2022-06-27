@@ -133,7 +133,7 @@ class Graph {
     if (vertex.keyField === vertexFromFile.keyField) {
       this.vertices = new Map([...this.vertices, ...verticesFromFile]);
     } else {
-      alert('red', 'Unable to merge. THese graphs have different key fields');
+      alert('red', 'Unable to merge. These graphs have different key fields');
     }
   }
 
