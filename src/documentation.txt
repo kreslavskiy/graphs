@@ -14,3 +14,6 @@ import - to upload existing graph from file
 clear - to delete all nodes from graph
 show - to display all nodes
 exit - to quit program
+
+
+ooooo ma gaaadd
